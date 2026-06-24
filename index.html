@@ -182,6 +182,18 @@
   .catcard h5{font-family:'Space Grotesk',sans-serif;color:var(--txt);font-size:1rem;margin:0 0 5px;font-weight:600}
   .catcard p{color:var(--muted);font-size:.87rem;margin:0}
   .catcard .hl{display:inline-block;margin-top:9px;font-family:var(--mono);font-size:.62rem;letter-spacing:.05em;text-transform:uppercase;color:#ffce4a;border:1px solid rgba(255,206,74,.35);padding:2px 8px;border-radius:999px}
+  /* forge / api showcase */
+  .forge-ic{background:linear-gradient(135deg,#1f4fa3,#7a3cff)!important;padding:0!important}
+  .forge-ic svg{width:56%;height:56%}
+  .flowline{font-family:var(--mono);font-size:.8rem;color:var(--c1);margin-top:12px;letter-spacing:.01em}
+  .apigrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(252px,1fr));gap:14px}
+  .apicard{border:1px solid var(--line);border-radius:14px;background:var(--panel);padding:18px;transition:.2s}
+  .apicard:hover{transform:translateY(-3px);border-color:rgba(168,85,247,.45);background:rgba(168,85,247,.06)}
+  .apicard .ah{display:flex;align-items:center;gap:9px;margin-bottom:8px;flex-wrap:wrap}
+  .apicard h5{font-family:'Space Grotesk',sans-serif;color:var(--txt);font-size:1rem;margin:0;font-weight:600}
+  .apicard p{color:var(--muted);font-size:.87rem;margin:0}
+  .abadge{font-family:var(--mono);font-size:.59rem;letter-spacing:.06em;text-transform:uppercase;padding:2px 8px;border-radius:999px;border:1px solid var(--line);color:var(--muted);white-space:nowrap}
+  .abadge.ai{color:#0a0a12;background:var(--grad);border-color:transparent;font-weight:700}
 
   /* footer */
   footer{border-top:1px solid var(--line);padding:60px 0 70px;text-align:center}
@@ -238,6 +250,7 @@
   <p class="reveal">I build immersive training software in Unity, and the infrastructure that ships it. Over the past stretch I have taken a single XR training product across <strong>four platforms</strong>, Quest/XR, Android, Windows, and iOS, each with its own graphics API, build configuration, and content pipeline.</p>
   <p class="reveal">The thread running through all of it is <strong>tooling</strong>. When merging a dozen contributor branches started breaking scenes, I built a GUID conflict detector and remapper to catch the problems before the merge instead of after. When the team needed authoring and sync workflows, I built those too. I would rather spend a day building the tool that saves the team a week than just do the week.</p>
   <p class="reveal">I came to engineering from teaching math, which is probably why I care so much about making hard things legible: failing safe, turning scary pipelines into repeatable steps, and instrumenting for the data that actually tells you something. In XR, that means measuring where people <em>look</em>, not just what they tap.</p>
+  <p class="reveal">Lately a lot of that tooling runs on AI and a stack of APIs. I wire up <strong>Anthropic Claude</strong> for structured-output proofing, rewriting and code, <strong>ElevenLabs</strong> for narration, <strong>Whisper</strong> for transcription, and <strong>Cognitive3D</strong> for spatial analytics, alongside the platform APIs (Atlassian Forge, Supabase, Vimeo, Teams, GitHub) that stitch the pipeline together. My storyboard editor alone orchestrates four of them inside a single Confluence macro.</p>
 </section>
 
 <section id="work" class="wrap">
@@ -339,6 +352,43 @@
       </div>
     </div>
   </div>
+
+  <!-- Forge: NVRT Storyboard Editor -->
+  <div class="showcase reveal">
+    <div class="show-head">
+      <span class="app-icon forge-ic">
+        <svg viewBox="0 0 40 40" fill="none" aria-hidden="true">
+          <rect x="9" y="6" width="22" height="28" rx="3" fill="#fff" opacity=".96"/>
+          <rect x="13" y="12" width="14" height="2" rx="1" fill="#7a3cff"/>
+          <rect x="13" y="17" width="14" height="2" rx="1" fill="#cbd5e1"/>
+          <rect x="13" y="22" width="9" height="2" rx="1" fill="#cbd5e1"/>
+          <circle cx="27.5" cy="28" r="6" fill="#22d3ee"/>
+          <path d="M25.6 25.4 L30.2 28 L25.6 30.6 Z" fill="#06060b"/>
+          <path d="M30 7 l1 2.4 2.6 .4 -1.9 1.8 .5 2.6 -2.2 -1.2 -2.2 1.2 .5 -2.6 -1.9 -1.8 2.6 -.4 Z" fill="#f4c542"/>
+        </svg>
+      </span>
+      <div>
+        <h3>NVRT Storyboard Editor</h3>
+        <div class="show-tag">A Confluence-native authoring studio. One macro is the whole page.</div>
+      </div>
+    </div>
+    <div class="show-stack">
+      <div class="show-copy-full">
+        <p>Biomedical authors used to draft VR-training storyboards in scattered docs. I built them one Atlassian Forge macro that turns a Confluence page into a full authoring studio: steps and sub-steps, AI voice narration with inline players, Unity interaction mapping, and a proofreading pass, all saved into the page itself and synced into the Unity editor. It is the most API-dense thing I have shipped, and most of those APIs are AI.</p>
+        <p class="flowline">author in Confluence  &rarr;  generate AI narration + proof the copy  &rarr;  sync the storyboard into Unity</p>
+      </div>
+      <div class="apigrid">
+        <div class="apicard"><div class="ah"><h5>Atlassian Forge + Confluence</h5><span class="abadge">platform</span></div><p>A Forge macro with a Node resolver. The whole storyboard lives as a Confluence content property on the page, generated audio rides along as attachments, and edits are permission-gated.</p></div>
+        <div class="apicard"><div class="ah"><h5>ElevenLabs</h5><span class="abadge ai">AI voice</span></div><p>Authors type a line of narration and get studio-quality text-to-speech back inline. The resolver lists voices and calls the TTS endpoint, then attaches the clip to the page.</p></div>
+        <div class="apicard"><div class="ah"><h5>Anthropic Claude</h5><span class="abadge ai">AI</span></div><p>Claude (Haiku 4.5) runs an AI proofread-and-rewrite pass and suggests Unity interaction names per step, returning <b>structured JSON through a schema-enforced output</b>, no parsing guesswork.</p></div>
+        <div class="apicard"><div class="ah"><h5>LanguageTool</h5><span class="abadge">grammar API</span></div><p>A grammar-and-style pass that catches redundancy, word order, passive voice and punctuation before a storyboard ever ships to a contractor.</p></div>
+        <div class="apicard"><div class="ah"><h5>Unity sync</h5><span class="abadge">pipeline</span></div><p>The finished storyboard and its chosen voice flow into the Unity editor through a Storyboard Sync console, closing the loop from writing to building.</p></div>
+      </div>
+      <div class="show-copy-full">
+        <p class="why"><strong>Why I built it:</strong> to put authoring, voice, proofing and the Unity hand-off in one place the writers already live in, so a storyboard goes from blank page to in-engine without ever leaving Confluence.</p>
+      </div>
+    </div>
+  </div>
 </section>
 
 <section id="skills" class="wrap">
@@ -348,6 +398,9 @@
   <div class="skillcols">
     <div class="skillcat reveal"><h4>Engine &amp; XR</h4>
       <span class="chip">Unity</span><span class="chip">C#</span><span class="chip">XR Interaction Toolkit</span><span class="chip">OpenXR</span><span class="chip">Universal Render Pipeline</span><span class="chip">UI Toolkit</span><span class="chip">Mixed Reality</span>
+    </div>
+    <div class="skillcat reveal"><h4>AI &amp; APIs</h4>
+      <span class="chip">Anthropic Claude</span><span class="chip">LLM structured outputs</span><span class="chip">ElevenLabs</span><span class="chip">Whisper</span><span class="chip">LanguageTool</span><span class="chip">Cognitive3D</span><span class="chip">Atlassian Forge</span><span class="chip">REST integration</span>
     </div>
     <div class="skillcat reveal"><h4>Multiplayer &amp; Backend</h4>
       <span class="chip">Photon Fusion</span><span class="chip">State Sync</span><span class="chip">Supabase</span><span class="chip">REST APIs</span><span class="chip">Auth / OTP</span>
