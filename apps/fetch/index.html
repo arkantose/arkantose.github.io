@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fetch</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div id="app">
+    <!-- Left nav rail -->
+    <nav class="rail">
+      <div class="brand">
+        <div class="brand-mark">🐾</div>
+        <div class="brand-name">Fetch</div>
+      </div>
+      <button class="rail-btn active" data-view="connect"><span class="ico">🎧</span><span>Connect</span></button>
+      <button class="rail-btn" data-view="library"><span class="ico">🎞️</span><span>Library</span></button>
+      <button class="rail-btn" data-view="transcribe"><span class="ico">✍️</span><span>Transcribe</span></button>
+      <button class="rail-btn" data-view="review"><span class="ico">✅</span><span>Review</span></button>
+      <button class="rail-btn" data-view="publish"><span class="ico">🚀</span><span>Publish</span></button>
+      <button class="rail-btn" data-view="history"><span class="ico">📋</span><span>History</span></button>
+      <button class="rail-btn" data-view="jobs"><span class="ico">📤</span><span>Jobs</span><span class="job-badge hidden" id="jobBadge">0</span></button>
+      <div class="rail-spacer"></div>
+      <button class="help-btn" id="howItWorks"><span class="ico">📖</span><span>How It Works</span></button>
+      <button class="sound-btn" id="soundToggle"><span class="ico">🔊</span><span>Sound on</span></button>
+      <div class="device-pill" id="devicePill">
+        <span class="dot" id="deviceDot"></span>
+        <span id="deviceText">Checking...</span>
+      </div>
+    </nav>
+
+    <!-- Main content -->
+    <main>
+      <!-- CONNECT -->
+      <section id="view-connect" class="view active">
+        <header class="view-head">
+          <h1>Connect</h1>
+          <p class="sub">Plug in the Quest, then pull the recordings you want to work on.</p>
+        </header>
+
+        <div class="card status-card">
+          <div class="status-left">
+            <div class="status-icon" id="statusIcon">🎧</div>
+            <div>
+              <div class="status-title" id="statusTitle">Looking for your headset...</div>
+              <div class="status-meta" id="statusMeta">Make sure it is plugged in and unlocked.</div>
+            </div>
+          </div>
+          <button class="btn ghost" id="refreshDevice">Refresh</button>
+        </div>
+
+        <div class="row gap">
+          <button class="btn primary" id="pullAllNew">⬇️ Pull all new</button>
+          <button class="btn" id="pullNewest">⬇️ Pull newest</button>
+          <button class="btn" id="pullSelected">⬇️ Pull selected</button>
+        </div>
+
+        <div class="card">
+          <div class="card-head">
+            <h2>On the headset</h2>
+            <span class="muted" id="headsetCount"></span>
+          </div>
+          <div id="headsetList" class="list"></div>
+        </div>
+      </section>
+
+      <!-- LIBRARY -->
+      <section id="view-library" class="view">
+        <header class="view-head">
+          <h1>Library</h1>
+          <p class="sub">Pulled videos on this PC. Pick one to transcribe.</p>
+        </header>
+        <div class="card">
+          <div id="libraryList" class="list"></div>
+        </div>
+      </section>
+
+      <!-- TRANSCRIBE -->
+      <section id="view-transcribe" class="view">
+        <header class="view-head">
+          <h1>Transcribe</h1>
+          <p class="sub">Turn the selected video into a timestamped checklist.</p>
+        </header>
+        <div class="card selected-card" id="transcribeSelected">
+          <div class="muted">No video selected. Head to the Library and pick one.</div>
+        </div>
+        <div class="row gap">
+          <button class="btn primary" id="runTranscribe" disabled>✍️ Generate checklist</button>
+        </div>
+        <div class="card progress-card hidden" id="transcribeProgress">
+          <div class="progress-label" id="transcribeLabel">Working...</div>
+          <div class="bar"><div class="bar-fill" id="transcribeBar"></div></div>
+        </div>
+      </section>
+
+      <!-- REVIEW -->
+      <section id="view-review" class="view">
+        <header class="view-head">
+          <h1>Review</h1>
+          <p class="sub">Fix anything mis-heard before it goes out. Timestamp callouts get a time, Other notes do not.</p>
+        </header>
+
+        <div class="card">
+          <div class="card-head">
+            <h2>Timestamp <span class="badge" id="changeCount">0</span></h2>
+            <button class="btn small" id="addChange">+ Add timestamp</button>
+          </div>
+          <div id="changesList" class="checklist"></div>
+        </div>
+
+        <div class="card">
+          <div class="card-head">
+            <h2>Other <span class="badge alt" id="otherCount">0</span></h2>
+            <button class="btn small" id="addOther">+ Add note</button>
+          </div>
+          <div id="otherList" class="checklist"></div>
+        </div>
+      </section>
+
+      <!-- PUBLISH -->
+      <section id="view-publish" class="view">
+        <header class="view-head">
+          <h1>Publish</h1>
+          <p class="sub">Upload the video to Vimeo and post the checklist to Teams.</p>
+        </header>
+
+        <div class="card">
+          <label class="field-label" for="pubDevice">Device</label>
+          <div class="folder-row">
+            <select id="pubDevice" class="field-input"><option value="">None</option></select>
+            <button type="button" class="btn small" id="newDeviceBtn">+ New</button>
+            <button type="button" class="btn small" id="delDeviceBtn" title="Delete the selected device from the saved list">🗑️</button>
+          </div>
+          <div class="folder-new hidden" id="newDeviceRow">
+            <input type="text" id="newDeviceName" class="field-input" placeholder="New device name" />
+            <button type="button" class="btn small primary" id="createDeviceBtn">Add</button>
+            <button type="button" class="btn small" id="cancelDeviceBtn">Cancel</button>
+          </div>
+          <label class="field-label" for="pubProcedure">Procedure</label>
+          <div class="folder-row">
+            <select id="pubProcedure" class="field-input"><option value="">None</option></select>
+            <button type="button" class="btn small" id="newProcBtn">+ New</button>
+            <button type="button" class="btn small" id="delProcBtn" title="Delete the selected procedure from the saved list">🗑️</button>
+          </div>
+          <div class="folder-new hidden" id="newProcRow">
+            <input type="text" id="newProcName" class="field-input" placeholder="New procedure name" />
+            <button type="button" class="btn small primary" id="createProcBtn">Add</button>
+            <button type="button" class="btn small" id="cancelProcBtn">Cancel</button>
+          </div>
+          <label class="field-label" for="pubTitle">Title</label>
+          <input type="text" id="pubTitle" class="field-input" placeholder="Review title" />
+          <label class="field-label" for="pubDescription">Description</label>
+          <textarea id="pubDescription" class="field-input" rows="2" placeholder="Optional - shown on Vimeo and in the post"></textarea>
+          <label class="field-label" for="pubNotes">Notes</label>
+          <textarea id="pubNotes" class="field-input" rows="3" placeholder="Optional - shown at the bottom of the post"></textarea>
+          <label class="field-label" for="pubFolder">Vimeo folder</label>
+          <div class="folder-row">
+            <select id="pubFolder" class="field-input"><option value="">No folder (My Videos)</option></select>
+            <button type="button" class="btn small" id="newFolderBtn">+ New</button>
+          </div>
+          <div class="folder-new hidden" id="newFolderRow">
+            <input type="text" id="newFolderName" class="field-input" placeholder="New folder name" />
+            <button type="button" class="btn small primary" id="createFolderBtn">Create</button>
+            <button type="button" class="btn small" id="cancelFolderBtn">Cancel</button>
+          </div>
+        </div>
+
+        <div class="card summary-card" id="publishSummary"></div>
+
+        <div class="row gap">
+          <button class="btn primary big" id="publishBtn" disabled>🚀 Publish</button>
+        </div>
+
+        <div class="card progress-card hidden" id="publishProgress">
+          <div class="progress-label" id="publishLabel">Working...</div>
+          <div class="bar"><div class="bar-fill" id="publishBar"></div></div>
+        </div>
+
+        <div class="card success-card hidden" id="publishSuccess"></div>
+      </section>
+
+      <!-- HISTORY -->
+      <section id="view-history" class="view">
+        <header class="view-head">
+          <h1>History</h1>
+          <p class="sub">Everything you've published, kept until you delete it. Expand a review to see its checklist.</p>
+        </header>
+        <div id="historyList" class="list"></div>
+      </section>
+
+      <!-- JOBS -->
+      <section id="view-jobs" class="view">
+        <header class="view-head">
+          <h1>Jobs</h1>
+          <p class="sub">Your publish queue. Uploads and Teams posts run here with live status.</p>
+        </header>
+        <div class="row gap"><button class="btn small" id="clearJobsBtn">Clear finished</button></div>
+        <div id="jobsList" class="list"></div>
+      </section>
+    </main>
+
+    <!-- Dog companion -->
+    <div id="dog" class="dog idle" title="Click me!">
+      <div class="speech" id="dogSpeech"></div>
+      <svg viewBox="0 0 120 120" width="110" height="110" aria-hidden="true">
+        <g id="dogTail">
+          <path d="M86 78 q22 -6 18 -26 q-2 12 -16 16 z" fill="#e8a85a"/>
+        </g>
+        <ellipse cx="60" cy="104" rx="30" ry="7" fill="rgba(0,0,0,0.08)"/>
+        <!-- body -->
+        <path d="M32 70 q28 18 56 0 q4 22 -6 30 q-22 8 -44 0 q-10 -8 -6 -30 z" fill="#f3c07b"/>
+        <!-- head -->
+        <g id="dogHead">
+          <ellipse cx="60" cy="52" rx="34" ry="30" fill="#f6cb8c"/>
+          <!-- ears -->
+          <path id="earL" d="M30 34 q-6 -22 12 -22 q2 14 -2 26 z" fill="#e8a85a"/>
+          <path id="earR" d="M90 34 q6 -22 -12 -22 q-2 14 2 26 z" fill="#e8a85a"/>
+          <!-- cheeks -->
+          <ellipse cx="60" cy="62" rx="26" ry="18" fill="#fff3e0"/>
+          <!-- eyes -->
+          <circle class="eye" cx="48" cy="50" r="4" fill="#3a2a1a"/>
+          <circle class="eye" cx="72" cy="50" r="4" fill="#3a2a1a"/>
+          <!-- blush -->
+          <circle cx="40" cy="60" r="4" fill="#ffb3a0" opacity="0.7"/>
+          <circle cx="80" cy="60" r="4" fill="#ffb3a0" opacity="0.7"/>
+          <!-- nose + smile -->
+          <ellipse cx="60" cy="60" rx="4" ry="3" fill="#3a2a1a"/>
+          <path d="M52 66 q8 8 16 0" stroke="#3a2a1a" stroke-width="2" fill="none" stroke-linecap="round"/>
+        </g>
+      </svg>
+    </div>
+
+    <div id="toast" class="toast"></div>
+
+    <div id="howModal" class="modal-overlay hidden">
+      <div class="modal">
+        <button class="modal-close" id="howClose" title="Close">&times;</button>
+        <h2>🐾 How Fetch works</h2>
+        <p class="lead">Two parts: how you talk in the headset, and the buttons here on your PC.</p>
+
+        <h3>🎧 In the headset</h3>
+        <p>Record the module like always. When you spot something, open with a trigger word, say the whole thought, and close with <b>"Pause"</b>:</p>
+        <div class="trigger">
+          <p><b>"Timestamp ... Pause"</b> a specific fix tied to a spot. Say <b>where</b> it is, what's wrong, and what to do. Fetch attaches a clickable time so the contractor jumps straight to that moment in the video.</p>
+          <p class="ex">"Timestamp: the front intake panel should be brushed metal, not plastic. Pause."</p>
+        </div>
+        <div class="trigger">
+          <p><b>"Sidenote ... Pause"</b> a general note not tied to a moment. No time gets attached.</p>
+          <p class="ex">"Sidenote: the lighting feels darker than the other modules. Pause."</p>
+        </div>
+        <div class="tips">Tips: one thing per callout (three issues = three callouts). Say <b>where</b> it is out loud, since Fetch can't see where you were looking. Saying <b>"Pause"</b> at the end is what lets the module narrator keep playing, anything it says after your "Pause" is ignored. Just don't use the word "pause" inside a callout.</div>
+
+        <h3>💻 On your PC</h3>
+        <p>The tabs down the left side, roughly in the order you use them:</p>
+        <ol>
+          <li><b>Connect.</b> Plug in the Quest, wait for the green dot, then pull your recordings. Ones you already pulled are checked and greyed so you don't grab them twice. The 🗑️ on a recording deletes it off the headset <i>and</i> out of your Library. Anything you already published stays safe in History.</li>
+          <li><b>Library.</b> Your working pile of pulled recordings. Pick one and hit <b>Select</b>. A recording stays here until you publish it, then it moves to History. If you ever delete it from History, it comes right back here.</li>
+          <li><b>Transcribe.</b> Hit <b>Generate checklist</b> and wait. This runs on your own PC, free, and turns your spoken callouts into a list. (This step needs no internet.)</li>
+          <li><b>Review.</b> Read the list, fix anything it misheard, and add or remove items by hand. This is your last chance to tidy it before it goes out.</li>
+          <li><b>Publish.</b> Fill in the <b>Device</b> and <b>Procedure</b> (use <b>+ New</b> to save one for next time, 🗑️ to drop one you added by mistake), a <b>Title</b>, and optional <b>Description</b> and <b>Notes</b>. Choose which <b>Vimeo folder</b> it lands in. Publish uploads the video to Vimeo and posts the checklist card to the Teams channel.</li>
+          <li><b>Jobs.</b> Your upload queue. Each publish shows a live progress bar here and runs in the background, so you can line up the next one while it works. A green check and a Vimeo link mean it finished.</li>
+          <li><b>History.</b> Every review you've published, grouped by device. As the team knocks out fixes, tick the items off here to track progress (the count shows how many are done). Delete a review to clear it, and Fetch asks if you also want to delete its Vimeo video. The Teams message stays either way.</li>
+        </ol>
+        <p>And yes, you can pet the dog. 🐕</p>
+      </div>
+    </div>
+
+    <div id="deleteModal" class="modal-overlay hidden">
+      <div class="modal modal-sm">
+        <h2 id="deleteTitle">Delete</h2>
+        <p id="deleteText" class="lead"></p>
+        <label class="toggle"><input type="checkbox" id="deleteVimeoChk" /><span id="deleteVimeoLabel">Also delete the Vimeo video</span></label>
+        <p class="muted" style="font-size: 12.5px; margin-top: 6px;">The Teams message can't be removed automatically. Delete it in Teams if you need to.</p>
+        <div class="row gap" style="margin-top: 16px; justify-content: flex-end;">
+          <button class="btn" id="deleteCancelBtn">Cancel</button>
+          <button class="btn danger" id="deleteConfirmBtn">Delete</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="sfx.js"></script>
+  <script src="dog.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

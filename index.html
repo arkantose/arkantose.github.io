@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Dylan Crow — Unity / XR Engineer</title>
-<meta name="description" content="Dylan Crow — Unity / XR Engineer. Multi-platform immersive training software, real-time multiplayer, and the internal tooling that ships it." />
-<meta property="og:title" content="Dylan Crow — Unity / XR Engineer" />
+<title>Dylan Crow | Unity / XR Engineer</title>
+<meta name="description" content="Dylan Crow | Unity / XR Engineer. Multi-platform immersive training software, real-time multiplayer, and the internal tooling that ships it." />
+<meta property="og:title" content="Dylan Crow | Unity / XR Engineer" />
 <meta property="og:description" content="Multi-platform immersive training software, real-time multiplayer, and the internal tooling that ships it." />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://arkantose.github.io/" />
@@ -13,7 +13,7 @@
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="Dylan Crow — Unity / XR Engineer" />
+<meta name="twitter:title" content="Dylan Crow | Unity / XR Engineer" />
 <meta name="twitter:description" content="Multi-platform immersive software, and the tools that ship it." />
 <meta name="twitter:image" content="https://arkantose.github.io/og.png" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -120,6 +120,44 @@
   .art .t{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:1rem}
   .art .m{font-family:var(--mono);font-size:.72rem;color:var(--muted);margin-top:8px}
 
+  /* showcase */
+  .showcase{margin-top:34px;border:1px solid var(--line);border-radius:22px;background:var(--panel);overflow:hidden}
+  .show-head{display:flex;align-items:center;gap:18px;padding:22px clamp(20px,4vw,30px);border-bottom:1px solid var(--line)}
+  .app-icon{width:72px;height:72px;border-radius:18px;object-fit:cover;box-shadow:0 12px 30px -10px rgba(0,0,0,.7);flex:none}
+  .app-icon.cat-ic{object-fit:contain;background:radial-gradient(circle at 50% 45%,rgba(34,211,238,.16),transparent 70%)}
+  .show-head h3{font-family:'Space Grotesk',sans-serif;font-size:1.5rem;font-weight:700}
+  .show-tag{color:var(--muted);font-size:.98rem;margin-top:2px}
+  .show-body{display:grid;grid-template-columns:1.12fr .88fr;gap:clamp(20px,3vw,32px);padding:clamp(20px,4vw,30px)}
+  @media(max-width:820px){.show-body{grid-template-columns:1fr}}
+  .show-copy p{color:var(--muted);font-size:.97rem}
+  .show-copy .why{margin-top:16px;color:#cbd5e1}
+  .feats{list-style:none;margin:16px 0 0;display:flex;flex-direction:column;gap:9px}
+  .feats li{position:relative;padding-left:22px;color:#c9c9da;font-size:.94rem}
+  .feats li::before{content:"";position:absolute;left:0;top:7px;width:9px;height:9px;border-radius:50%;background:var(--grad)}
+  .feats b{color:var(--txt)}
+  .frame{border:1px solid var(--line);border-radius:14px;overflow:hidden;background:#0d0d16;box-shadow:0 24px 60px -26px rgba(0,0,0,.85)}
+  .frame-bar{display:flex;align-items:center;gap:7px;padding:9px 12px;background:rgba(255,255,255,.04);border-bottom:1px solid var(--line)}
+  .frame-bar span{width:10px;height:10px;border-radius:50%;background:#3a3a4a}
+  .frame-bar span:nth-child(1){background:#ff5f57}.frame-bar span:nth-child(2){background:#febc2e}.frame-bar span:nth-child(3){background:#28c840}
+  .frame-url{margin-left:8px;font-family:var(--mono);font-size:.72rem;color:var(--muted)}
+  .frame iframe{display:block;width:100%;height:540px;border:0;background:#fff}
+  .frame-poster{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:15px;height:540px;text-align:center;padding:24px;background:radial-gradient(circle at 50% 36%,rgba(34,211,238,.12),transparent 64%),#0d0d16}
+  .frame-poster img{width:120px;height:120px;border-radius:27px;box-shadow:0 18px 44px -12px rgba(0,0,0,.85)}
+  .poster-txt{color:var(--muted);font-size:.92rem;max-width:300px}
+  .launch-btn{cursor:pointer;font-family:inherit}
+  .frame-cap{margin-top:10px;font-family:var(--mono);font-size:.72rem;color:var(--muted);text-align:center}
+  .cat-stage{position:relative;border:1px solid var(--line);border-radius:14px;overflow:hidden;aspect-ratio:16/10;background:#0d0d16}
+  .cat-scene{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.92}
+  .cat-sprite{position:absolute;right:6%;bottom:-3%;width:40%;filter:drop-shadow(0 12px 18px rgba(0,0,0,.5));animation:bob 3.2s ease-in-out infinite;cursor:pointer;user-select:none}
+  @keyframes bob{50%{transform:translateY(-7px)}}
+  .cat-bubble{position:absolute;left:6%;top:9%;max-width:55%;background:#fff;color:#16213a;font-size:.82rem;font-weight:600;padding:9px 13px;border-radius:13px;box-shadow:0 8px 22px rgba(0,0,0,.35);line-height:1.35}
+  .cat-bubble::after{content:"";position:absolute;bottom:-7px;left:22px;border:7px solid transparent;border-top-color:#fff;border-bottom:0}
+  .catfeats{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 13px}
+  .catchip{font-family:var(--mono);font-size:.74rem;color:#cbd5e1;padding:7px 13px;border:1px solid var(--line);border-radius:999px;background:rgba(255,255,255,.02);cursor:pointer;transition:.2s}
+  .catchip:hover{border-color:rgba(255,255,255,.32)}
+  .catchip.active{background:var(--grad);color:#0a0a12;border-color:transparent;font-weight:600}
+  .catdesc{color:#c9c9da;font-size:.95rem;min-height:44px}
+
   /* footer */
   footer{border-top:1px solid var(--line);padding:60px 0 70px;text-align:center}
   footer h2{margin-bottom:8px}
@@ -150,7 +188,7 @@
 <header class="hero wrap">
   <div class="eyebrow reveal">Unity / XR Engineer</div>
   <h1 class="reveal">I build <span class="g">immersive</span><br/>software, and the<br/>tools that ship it.</h1>
-  <div class="role reveal">Quest &middot; iOS &middot; Android &middot; Windows &mdash; one codebase.</div>
+  <div class="role reveal">Quest &middot; iOS &middot; Android &middot; Windows, one codebase.</div>
   <p class="tag reveal">I architect and ship multi-platform VR/AR training experiences in Unity, from the interaction systems and real-time multiplayer down to the build pipelines and internal tooling that hold it all together.</p>
   <div class="cta reveal">
     <a class="btn primary" href="#work">View the work</a>
@@ -170,47 +208,107 @@
 </section>
 
 <section id="about" class="wrap about">
-  <div class="kicker reveal">01 &mdash; About</div>
+  <div class="kicker reveal">01 &middot; About</div>
   <h2 class="reveal">Engineer first. Tool-builder always.</h2>
-  <p class="reveal">I build immersive training software in Unity, and the infrastructure that ships it. Over the past stretch I have taken a single XR training product across <strong>four platforms</strong> &mdash; Quest/XR, Android, Windows, and iOS &mdash; each with its own graphics API, build configuration, and content pipeline.</p>
+  <p class="reveal">I build immersive training software in Unity, and the infrastructure that ships it. Over the past stretch I have taken a single XR training product across <strong>four platforms</strong>, Quest/XR, Android, Windows, and iOS, each with its own graphics API, build configuration, and content pipeline.</p>
   <p class="reveal">The thread running through all of it is <strong>tooling</strong>. When merging a dozen contributor branches started breaking scenes, I built a GUID conflict detector and remapper to catch the problems before the merge instead of after. When the team needed authoring and sync workflows, I built those too. I would rather spend a day building the tool that saves the team a week than just do the week.</p>
   <p class="reveal">I came to engineering from teaching math, which is probably why I care so much about making hard things legible: failing safe, turning scary pipelines into repeatable steps, and instrumenting for the data that actually tells you something. In XR, that means measuring where people <em>look</em>, not just what they tap.</p>
 </section>
 
 <section id="work" class="wrap">
-  <div class="kicker reveal">02 &mdash; Selected Work</div>
+  <div class="kicker reveal">02 &middot; Selected Work</div>
   <h2 class="reveal">Things I have built and shipped</h2>
   <p class="lead reveal">A multi-platform XR training platform and the systems around it. Built in Unity with XR Interaction Toolkit, Photon Fusion, Addressables, and a lot of purpose-built tooling.</p>
   <div class="grid">
-    <div class="card reveal"><div class="num">// 01</div><h3>Four platforms, one codebase</h3><p>Shipped the same XR training app to Quest/XR, Android, Windows, and iOS from a single Unity project. Per-platform graphics APIs (Vulkan, GLES3, IL2CPP, DirectX), build configs, and Addressables profiles &mdash; including tracking down a Vulkan black-screen and falling back to GLES3 on Android.</p><div class="stack"><span class="chip">Unity</span><span class="chip">URP</span><span class="chip">OpenXR</span><span class="chip">IL2CPP</span></div></div>
+    <div class="card reveal"><div class="num">// 01</div><h3>Four platforms, one codebase</h3><p>Shipped the same XR training app to Quest/XR, Android, Windows, and iOS from a single Unity project. Per-platform graphics APIs (Vulkan, GLES3, IL2CPP, DirectX), build configs, and Addressables profiles, including tracking down a Vulkan black-screen and falling back to GLES3 on Android.</p><div class="stack"><span class="chip">Unity</span><span class="chip">URP</span><span class="chip">OpenXR</span><span class="chip">IL2CPP</span></div></div>
 
     <div class="card reveal"><div class="num">// 02</div><h3>On-demand content delivery</h3><p>Architected remote module loading with Unity Addressables and Cloud Content Delivery, so the app installs small and pulls content only when it is opened. Separate CCD buckets and profiles per platform, with build-time checks to stop silent catalog mismatches.</p><div class="stack"><span class="chip">Addressables</span><span class="chip">CCD</span><span class="chip">DevOps</span></div></div>
 
-    <div class="card reveal"><div class="num">// 03</div><h3>Internal tooling, from scratch</h3><p>A GUID conflict detector and remapper that scans contributor branches before merge and auto-resolves thousands of asset collisions &mdash; weeks of broken-scene cleanup avoided. Plus a web-to-engine pipeline for authoring storyboards in the browser and syncing them straight into Unity.</p><div class="stack"><span class="chip">PowerShell</span><span class="chip">GitHub CLI</span><span class="chip">Editor Tools</span></div></div>
+    <div class="card reveal"><div class="num">// 03</div><h3>Internal tooling, from scratch</h3><p>A GUID conflict detector and remapper that scans contributor branches before merge and auto-resolves thousands of asset collisions, weeks of broken-scene cleanup avoided. Plus a web-to-engine pipeline for authoring storyboards in the browser and syncing them straight into Unity.</p><div class="stack"><span class="chip">PowerShell</span><span class="chip">GitHub CLI</span><span class="chip">Editor Tools</span></div></div>
 
     <div class="card reveal"><div class="num">// 04</div><h3>Real-time multiplayer</h3><p>Networked training sessions with Photon Fusion: state sync across VR and desktop clients, host migration, and networked interactions that keep hand-tracked and mouse-driven players in lockstep.</p><div class="stack"><span class="chip">Photon Fusion</span><span class="chip">Netcode</span><span class="chip">State Sync</span></div></div>
 
-    <div class="card reveal"><div class="num">// 05</div><h3>iOS distribution from zero</h3><p>Stood up the full Apple signing chain and a cloud build pipeline &mdash; CSR, distribution certificate, provisioning profile, p12, TestFlight &mdash; without owning a Mac. Demystified once, repeatable forever.</p><div class="stack"><span class="chip">iOS</span><span class="chip">CI/CD</span><span class="chip">Cloud Build</span></div></div>
+    <div class="card reveal"><div class="num">// 05</div><h3>iOS distribution from zero</h3><p>Stood up the full Apple signing chain and a cloud build pipeline, CSR, distribution certificate, provisioning profile, p12, TestFlight, without owning a Mac. Demystified once, repeatable forever.</p><div class="stack"><span class="chip">iOS</span><span class="chip">CI/CD</span><span class="chip">Cloud Build</span></div></div>
 
     <div class="card reveal"><div class="num">// 06</div><h3>Spatial analytics</h3><p>Integrated gaze and dwell analytics into XR training to see where learners hesitate and which steps confuse them. Built as a fail-safe capability layer that compiles and runs as a no-op until keys are configured, so it ships safely and switches on later.</p><div class="stack"><span class="chip">Cognitive3D</span><span class="chip">Gaze Data</span><span class="chip">Analytics</span></div></div>
   </div>
 </section>
 
 <section id="team" class="wrap">
-  <div class="kicker reveal">03 &mdash; For the team</div>
+  <div class="kicker reveal">03 &middot; For the team</div>
   <h2 class="reveal">Tools I built for everyone else first</h2>
-  <p class="lead reveal">The work I am proudest of usually has someone else&rsquo;s name on the benefit. When a teammate&rsquo;s day is full of small frictions, I would rather spend mine building the thing that removes them &mdash; for the whole team &mdash; than just power through my own list. Two of those tools:</p>
-  <div class="grid">
-    <div class="card reveal"><div class="num">// desktop cat</div><h3>A dev command center (that happens to be a cat)</h3><p>An in-editor companion that turns the team&rsquo;s most common Unity chores into one click: hop between scenes, run the full git workflow, jump straight from a console error to the line that threw it, and an auto-profiler that surfaces resolved stack traces for frame hitches. It started as a bit of morale and quietly became the thing everyone reaches for every day.</p><p style="margin-top:12px;color:#cbd5e1"><strong>Why I built it:</strong> a hundred tiny frictions a day add up. Removing them once, for everyone, beats removing them for myself.</p><div class="stack"><span class="chip">Unity Editor</span><span class="chip">C#</span><span class="chip">Developer Experience</span></div></div>
+  <p class="lead reveal">The work I am proudest of usually has someone else&rsquo;s name on the benefit. When a teammate&rsquo;s day is full of small frictions, I would rather spend mine building the thing that removes them, for the whole team, than just power through my own list. Two of those tools:</p>
+  <!-- Fetch -->
+  <div class="showcase reveal">
+    <div class="show-head">
+      <img class="app-icon" src="assets/fetch-icon.png" alt="Fetch app icon" />
+      <div>
+        <h3>Fetch</h3>
+        <div class="show-tag">Review on autopilot, with a good dog.</div>
+      </div>
+    </div>
+    <div class="show-body">
+      <div>
+        <div class="frame">
+          <div class="frame-bar"><span></span><span></span><span></span><div class="frame-url">fetch, live demo</div></div>
+          <div class="frame-poster" id="fetchPoster">
+            <img src="assets/fetch-icon.png" alt="Fetch app icon" />
+            <div class="poster-txt">A live, clickable build of Fetch, running on mock data.</div>
+            <button class="btn primary launch-btn" id="fetchLaunch">&#9654;&nbsp; Launch the demo</button>
+          </div>
+        </div>
+        <div class="frame-cap">Loads the real app right here in your browser. Click around, and pet the dog.</div>
+      </div>
+      <div class="show-copy">
+        <p>A teammate&rsquo;s VR-module review used to eat an afternoon: pull the recordings off the headset, transcribe spoken notes by hand, cut a checklist, upload the video, post it to the team channel. Fetch does the whole loop.</p>
+        <ul class="feats">
+          <li><b>Pull</b> recordings off the headset over USB</li>
+          <li><b>Transcribe</b> spoken callouts into a timestamped checklist (faster-whisper)</li>
+          <li><b>Review</b> and fix, then <b>Publish</b> to Vimeo + Teams in one click</li>
+          <li>A dog companion keeps you company while it runs</li>
+        </ul>
+        <p class="why"><strong>Why I built it:</strong> to hand a teammate their afternoon back, and turn a dreaded manual chore into a few clicks. Electron front-end, Python sidecar (adb, ffmpeg, Whisper, Claude, Vimeo, Teams).</p>
+      </div>
+    </div>
+  </div>
 
-    <div class="card reveal"><div class="num">// fetch</div><h3>Review on autopilot (with a good dog)</h3><p>An Electron + Python desktop app that automates our VR module review loop end to end: pull the build off the headset, transcribe the narration, generate a structured review checklist, and route the feedback to the team. The reviewer gets to spend their time judging the experience instead of wrangling adb, transcripts, and uploads &mdash; with a friendly dog companion along for the ride.</p><p style="margin-top:12px;color:#cbd5e1"><strong>Why I built it:</strong> to hand a teammate their afternoon back, and turn a slow, manual chore into something nobody has to dread.</p><div class="stack"><span class="chip">Electron</span><span class="chip">Python</span><span class="chip">Whisper</span><span class="chip">Automation</span></div></div>
+  <!-- Desktop Cat -->
+  <div class="showcase reveal">
+    <div class="show-head">
+      <img class="app-icon cat-ic" src="assets/cat.png" alt="Desktop Cat character" />
+      <div>
+        <h3>Desktop Cat</h3>
+        <div class="show-tag">A dev command center that happens to be a cat.</div>
+      </div>
+    </div>
+    <div class="show-body">
+      <div>
+        <div class="cat-stage">
+          <img class="cat-scene" src="assets/cat-scene.png" alt="" />
+          <div class="cat-bubble" id="catBubble">Hop to any scene without digging through folders.</div>
+          <img class="cat-sprite" src="assets/cat.png" alt="Desktop Cat" id="catSprite" />
+        </div>
+        <div class="frame-cap">Pick a power below, the cat shows you. (Yes, you can click the cat.)</div>
+      </div>
+      <div class="show-copy">
+        <p>It started as a bit of morale and quietly became the thing the team reaches for every day: a friendly cat that lives on the desktop and turns the most common Unity chores into one click.</p>
+        <div class="catfeats" id="catFeats">
+          <button class="catchip active" data-msg="Hop to any scene without digging through folders.">Scene-hop</button>
+          <button class="catchip" data-msg="The whole git workflow (status, branch, commit, push) from one menu.">Git menu</button>
+          <button class="catchip" data-msg="Click a console error and land on the exact line that threw it.">Jump to error</button>
+          <button class="catchip" data-msg="An auto-profiler that catches frame hitches and surfaces the resolved stack trace.">Auto-profiler</button>
+        </div>
+        <p class="catdesc" id="catDesc">Hop to any scene without digging through folders.</p>
+        <p class="why"><strong>Why I built it:</strong> a hundred tiny frictions a day add up. Removing them once, for everyone, beats removing them for myself. (C# editor tooling + an Electron companion.)</p>
+      </div>
+    </div>
   </div>
 </section>
 
 <section id="skills" class="wrap">
-  <div class="kicker reveal">04 &mdash; Toolbox</div>
+  <div class="kicker reveal">04 &middot; Toolbox</div>
   <h2 class="reveal">What I work in</h2>
-  <p class="lead reveal">Generalist by necessity and by choice &mdash; engine, networking, backend, build, and 3D.</p>
+  <p class="lead reveal">Generalist by necessity and by choice, engine, networking, backend, build, and 3D.</p>
   <div class="skillcols">
     <div class="skillcat reveal"><h4>Engine &amp; XR</h4>
       <span class="chip">Unity</span><span class="chip">C#</span><span class="chip">XR Interaction Toolkit</span><span class="chip">OpenXR</span><span class="chip">Universal Render Pipeline</span><span class="chip">UI Toolkit</span><span class="chip">Mixed Reality</span>
@@ -228,7 +326,7 @@
 </section>
 
 <section id="writing" class="wrap">
-  <div class="kicker reveal">05 &mdash; Writing</div>
+  <div class="kicker reveal">05 &middot; Writing</div>
   <h2 class="reveal">70+ articles on Unity &amp; C#</h2>
   <p class="lead reveal">I write about the things that bite me so they do not bite you. Find the full catalog on <a style="color:var(--c1)" href="https://medium.com/@arkantose.dc" target="_blank" rel="noopener">Medium</a>.</p>
   <div class="write-grid">
@@ -239,7 +337,7 @@
 </section>
 
 <footer id="contact" class="wrap">
-  <div class="kicker reveal">06 &mdash; Contact</div>
+  <div class="kicker reveal">06 &middot; Contact</div>
   <h2 class="reveal">Let&rsquo;s build something immersive.</h2>
   <p class="lead reveal" style="margin:8px auto 0">Open to interesting problems in XR, Unity, and the tooling around them.</p>
   <div class="flinks reveal">
@@ -269,6 +367,32 @@
     requestAnimationFrame(step);
   }),{threshold:.5});
   document.querySelectorAll('.stat .n').forEach(el=>countio.observe(el));
+
+  // desktop cat showcase
+  (function(){
+    const bubble=document.getElementById('catBubble'), desc=document.getElementById('catDesc'), sprite=document.getElementById('catSprite');
+    document.querySelectorAll('#catFeats .catchip').forEach(chip=>{
+      chip.addEventListener('click',()=>{
+        document.querySelectorAll('#catFeats .catchip').forEach(c=>c.classList.remove('active'));
+        chip.classList.add('active');
+        const m=chip.dataset.msg; if(desc)desc.textContent=m; if(bubble)bubble.textContent=m;
+        if(sprite){sprite.style.animation='none'; void sprite.offsetWidth; sprite.style.animation='bob 3.2s ease-in-out infinite';}
+      });
+    });
+    if(sprite&&bubble){const pats=['Meow.','Nice click.','PartsSource cat, reporting in.','Want me to hop scenes?','I caught a frame hitch earlier. Fixed.'];let i=0;sprite.addEventListener('click',()=>{i=(i+1)%pats.length;bubble.textContent=pats[i];});}
+  })();
+
+  // fetch: launch live demo on click (keeps the page light by default)
+  (function(){
+    const fl=document.getElementById('fetchLaunch');
+    if(!fl)return;
+    fl.addEventListener('click',()=>{
+      const p=document.getElementById('fetchPoster');
+      const f=document.createElement('iframe');
+      f.src='apps/fetch/'; f.title='Fetch live demo';
+      p.replaceWith(f);
+    });
+  })();
 </script>
 </body>
 </html>
