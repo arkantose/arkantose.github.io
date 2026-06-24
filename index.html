@@ -306,7 +306,7 @@
   <!-- Fetch -->
   <div class="showcase reveal">
     <div class="show-head">
-      <img class="app-icon" src="assets/fetch-icon.png" alt="Fetch app icon" />
+      <img class="app-icon" src="assets/fetch-icon.png?v=2" alt="Fetch app icon" />
       <div>
         <h3>Fetch</h3>
         <div class="show-tag">Review on autopilot, with a good dog.</div>
@@ -316,7 +316,7 @@
       <div class="frame">
         <div class="frame-bar"><span></span><span></span><span></span><div class="frame-url">fetch, live demo</div></div>
         <div class="frame-poster" id="fetchPoster">
-          <img src="assets/fetch-icon.png" alt="Fetch app icon" />
+          <img src="assets/fetch-icon.png?v=2" alt="Fetch app icon" />
           <div class="poster-txt">A live, clickable build of Fetch, running on mock data.</div>
           <button class="btn primary launch-btn" id="fetchLaunch">&#9654;&nbsp; Launch the demo</button>
         </div>
@@ -555,6 +555,17 @@
   }),{threshold:.5});
   document.querySelectorAll('.stat .n').forEach(el=>countio.observe(el));
 
+  // desktop cat: synthesized Web Audio, ported from the docs (meow + ViVi voice, no sample files)
+  window.PSCat=(function(){
+    var AC=null,master=null;
+    function ac(){ if(!AC){ try{ AC=new (window.AudioContext||window.webkitAudioContext)(); master=AC.createGain(); master.gain.value=1; master.connect(AC.destination); }catch(e){ return null; } } if(AC.state==='suspended'){ try{AC.resume();}catch(e){} } return AC; }
+    function dest(){ return master; }
+    function tone(freq,start,dur,type,vol){ var c=ac(); if(!c)return; var t=c.currentTime+start; var o=c.createOscillator(),g=c.createGain(); o.type=type||'sine'; o.frequency.value=freq; o.connect(g); g.connect(dest()); g.gain.setValueAtTime(0.0001,t); g.gain.linearRampToValueAtTime(vol||0.14,t+0.02); g.gain.exponentialRampToValueAtTime(0.0001,t+dur); o.start(t); o.stop(t+dur+0.05); }
+    function meow(p){ var c=ac(); if(!c)return; p=p||1; var t=c.currentTime,o=c.createOscillator(),g=c.createGain(),f=c.createBiquadFilter(); o.type='sawtooth'; o.frequency.setValueAtTime(600*p,t); o.frequency.exponentialRampToValueAtTime(880*p,t+0.12); o.frequency.exponentialRampToValueAtTime(520*p,t+0.34); f.type='lowpass'; f.frequency.value=1700; o.connect(f); f.connect(g); g.connect(dest()); g.gain.setValueAtTime(0.0001,t); g.gain.linearRampToValueAtTime(0.2,t+0.05); g.gain.exponentialRampToValueAtTime(0.0001,t+0.42); o.start(t); o.stop(t+0.46); }
+    function vivi(){ var c=ac(); if(!c)return; var t=c.currentTime; function blip(st,f0,f1){ var o=c.createOscillator(),fl=c.createBiquadFilter(),g=c.createGain(); o.type='triangle'; o.frequency.setValueAtTime(f0,st); o.frequency.exponentialRampToValueAtTime(f1,st+0.13); fl.type='lowpass'; fl.frequency.value=1700; g.gain.setValueAtTime(0.0001,st); g.gain.linearRampToValueAtTime(0.15,st+0.03); g.gain.exponentialRampToValueAtTime(0.0001,st+0.2); o.connect(fl); fl.connect(g); g.connect(dest()); o.start(st); o.stop(st+0.24); } blip(t,330,420); blip(t+0.15,450,580); [1568,2093,2637].forEach(function(f,n){ tone(f,0.3+n*0.05,0.24,'sine',0.05); }); }
+    return { meow:meow, vivi:vivi };
+  })();
+
   // desktop cat: inject the real navy cat, wire clicks + animate the perf HUD
   (function(){
     const catMarkup='<g transform="translate(0,7)"><ellipse cx="52" cy="108" rx="46" ry="17" fill="#fff" stroke="#c9d6e2" stroke-width="1.5"/><circle cx="20" cy="98" r="11" fill="#fff" stroke="#c9d6e2" stroke-width="1.5"/><circle cx="44" cy="92" r="14" fill="#fff" stroke="#c9d6e2" stroke-width="1.5"/><circle cx="68" cy="94" r="12" fill="#fff" stroke="#c9d6e2" stroke-width="1.5"/><circle cx="86" cy="102" r="9" fill="#fff" stroke="#c9d6e2" stroke-width="1.5"/><ellipse cx="52" cy="106" rx="42" ry="14" fill="#fff"/><circle cx="20" cy="98" r="9.5" fill="#fff"/><circle cx="44" cy="92" r="12.5" fill="#fff"/><circle cx="68" cy="94" r="10.5" fill="#fff"/><circle cx="86" cy="102" r="7.5" fill="#fff"/></g><path d="M28 86 Q7 84 9 64 Q11 52 23 54" fill="none" stroke="#003763" stroke-width="7" stroke-linecap="round"/><g transform="translate(9,4)"><ellipse cx="46" cy="62" rx="30" ry="26" fill="#003763"/><ellipse cx="46" cy="70" rx="19" ry="15" fill="#f8f9fa"/><path d="M28 22 L33 8 L42 18 Z" fill="#003763"/><path d="M64 22 L59 8 L50 18 Z" fill="#003763"/><path d="M30 24 L34 12 L41 20 Z" fill="#f4b8c4"/><path d="M62 24 L58 12 L51 20 Z" fill="#f4b8c4"/><circle cx="46" cy="30" r="19" fill="#003763"/><g class="cat-eyes"><circle cx="39" cy="27" r="3" fill="#fff"/><circle cx="53" cy="27" r="3" fill="#fff"/><circle cx="39.8" cy="27.6" r="1.5" fill="#003763"/><circle cx="53.8" cy="27.6" r="1.5" fill="#003763"/></g><path d="M44 34 L48 34 L46 37 Z" fill="#f4b8c4"/><path d="M46 37 Q42 41 38 38 M46 37 Q50 41 54 38" fill="none" stroke="#f8f9fa" stroke-width="1.6" stroke-linecap="round"/><path d="M30 32 L18 30 M30 35 L19 36 M62 32 L74 30 M62 35 L73 36" stroke="#a0a5ac" stroke-width="1.2" stroke-linecap="round"/><path d="M31 45 Q46 53 61 45 L61 49 Q46 57 31 49 Z" fill="#c43c3c"/><circle cx="46" cy="52" r="4" fill="#f4c542" stroke="#b8860b" stroke-width="0.8"/><circle cx="46" cy="51" r="1" fill="#7a5c00"/><path d="M46 52 L46 55" stroke="#7a5c00" stroke-width="0.8"/><ellipse cx="36" cy="84" rx="7" ry="5" fill="#003763"/><ellipse cx="56" cy="84" rx="7" ry="5" fill="#003763"/><path d="M33 84 v3 M36 84 v3 M39 84 v3 M53 84 v3 M56 84 v3 M59 84 v3" stroke="#f8f9fa" stroke-width="1" stroke-linecap="round"/></g>';
@@ -563,7 +574,7 @@
     const bubble=document.getElementById('catBubble'), cat=document.getElementById('catHero');
     const pats=['You are keeping the fleet running.','Clean code, calm mind.','Meow. Best build yet.','Want me to hop scenes?','I caught a frame hitch earlier. Fixed it.','Ship it with pride.','PartsSource is lucky to have you.'];
     let bi=0,bt; function say(t){ if(!bubble)return; bubble.textContent=t; bubble.classList.add('show'); clearTimeout(bt); bt=setTimeout(()=>bubble.classList.remove('show'),2800); }
-    if(cat){ cat.addEventListener('click',()=>{ bi=(bi+1)%pats.length; say(pats[bi]); cat.style.animation='none'; void cat.offsetWidth; cat.style.animation='bob 4.4s ease-in-out infinite'; }); }
+    if(cat){ cat.addEventListener('click',()=>{ bi=(bi+1)%pats.length; say(pats[bi]); try{window.PSCat&&window.PSCat.meow(0.88+Math.random()*0.28);}catch(e){} cat.style.animation='none'; void cat.offsetWidth; cat.style.animation='bob 4.4s ease-in-out infinite'; }); }
     if(cat&&bubble){ const cio=new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting){ say('Click me. I have things to say.'); cio.disconnect(); } }),{threshold:.5}); cio.observe(cat); }
     // perf HUD
     const f=document.getElementById('hFps'),m=document.getElementById('hMs'),d=document.getElementById('hDraw'),tr=document.getElementById('hTris'),me=document.getElementById('hMem'),bar=document.getElementById('hBar'),v=document.getElementById('hVerdict');
@@ -578,9 +589,11 @@
     const cat=document.getElementById('catHero'); if(!cat)return;
     const btns=document.querySelectorAll('.dressbtn');
     btns.forEach(b=>b.addEventListener('click',()=>{
-      cat.setAttribute('data-cos', b.getAttribute('data-cos')||'');
+      const cos=b.getAttribute('data-cos')||'';
+      cat.setAttribute('data-cos', cos);
       btns.forEach(x=>x.classList.toggle('is-on', x===b));
       cat.style.animation='none'; void cat.offsetWidth; cat.style.animation='bob 4.4s ease-in-out infinite';
+      try{ if(cos==='vivi') window.PSCat.vivi(); else window.PSCat.meow(0.8+Math.random()*0.35); }catch(e){}
     }));
   })();
 
