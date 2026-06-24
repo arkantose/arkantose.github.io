@@ -188,7 +188,7 @@
   @keyframes bob{0%,100%{transform:translateY(0) rotate(-.4deg)}50%{transform:translateY(-12px) rotate(.4deg)}}
   .cat-eyes{transform-box:fill-box;transform-origin:center;animation:blink 5.2s infinite}
   @keyframes blink{0%,90%,100%{transform:scaleY(1)}93%{transform:scaleY(.12)}96%{transform:scaleY(1)}}
-  .cat-bubble{display:inline-block;margin:0 auto 12px;max-width:280px;background:#fff;color:#003763;font-weight:700;font-size:.82rem;padding:8px 14px;border-radius:13px;box-shadow:0 8px 22px rgba(0,20,45,.45);opacity:0;transform:translateY(4px);transition:.25s}
+  .cat-bubble{position:relative;z-index:20;display:inline-block;margin:0 auto 12px;max-width:280px;background:#fff;color:#003763;font-weight:700;font-size:.82rem;padding:8px 14px;border-radius:13px;box-shadow:0 8px 22px rgba(0,20,45,.45);opacity:0;transform:translateY(4px);transition:.25s}
   .cat-bubble.show{opacity:1;transform:none}
   .app-icon.cat-ic{display:grid;place-items:center;padding:7px}
   .app-icon.cat-ic svg{width:100%;height:100%}
