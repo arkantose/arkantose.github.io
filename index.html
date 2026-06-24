@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Dylan Crow — Unity / XR Engineer</title>
+<meta name="description" content="Dylan Crow — Unity / XR Engineer. Multi-platform immersive training software, real-time multiplayer, and the internal tooling that ships it." />
+<meta property="og:title" content="Dylan Crow — Unity / XR Engineer" />
+<meta property="og:description" content="Multi-platform immersive training software, real-time multiplayer, and the internal tooling that ships it." />
+<meta property="og:type" content="website" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --bg:#06060b; --bg2:#0b0b14; --panel:rgba(255,255,255,.035);
+    --line:rgba(255,255,255,.09); --txt:#e9e9f2; --muted:#9b9bb4;
+    --c1:#22d3ee; --c2:#a855f7; --c3:#ec4899;
+    --grad:linear-gradient(110deg,var(--c1),var(--c2) 55%,var(--c3));
+    --mono:'JetBrains Mono',ui-monospace,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--txt);font-family:'Inter',system-ui,sans-serif;line-height:1.6;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+  a{color:inherit;text-decoration:none}
+  ::selection{background:var(--c2);color:#fff}
+
+  /* animated backdrop */
+  .bg-fx{position:fixed;inset:0;z-index:-2;background:
+      radial-gradient(60vw 60vw at 75% -10%,rgba(168,85,247,.20),transparent 60%),
+      radial-gradient(50vw 50vw at 10% 10%,rgba(34,211,238,.16),transparent 60%),
+      radial-gradient(55vw 55vw at 60% 110%,rgba(236,72,153,.14),transparent 60%),
+      var(--bg);}
+  .grid-fx{position:fixed;inset:0;z-index:-1;opacity:.35;
+      background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);
+      background-size:64px 64px;mask-image:radial-gradient(circle at 50% 30%,#000 0%,transparent 78%);}
+
+  /* nav */
+  nav{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;justify-content:space-between;align-items:center;
+      padding:18px clamp(20px,5vw,64px);backdrop-filter:blur(10px);border-bottom:1px solid transparent;transition:.3s}
+  nav.scrolled{background:rgba(6,6,11,.7);border-color:var(--line)}
+  .logo{font-family:var(--mono);font-weight:500;letter-spacing:.5px}
+  .logo b{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .nav-links{display:flex;gap:28px;font-size:.9rem}
+  .nav-links a{color:var(--muted);transition:.2s}
+  .nav-links a:hover{color:var(--txt)}
+  @media(max-width:680px){.nav-links{display:none}}
+
+  .wrap{max-width:1080px;margin:0 auto;padding:0 clamp(20px,5vw,32px)}
+  section{padding:clamp(70px,11vw,140px) 0}
+
+  /* hero */
+  .hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding-top:80px}
+  .eyebrow{font-family:var(--mono);color:var(--c1);font-size:.85rem;letter-spacing:3px;text-transform:uppercase;margin-bottom:22px}
+  h1{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(2.8rem,8.5vw,6.2rem);line-height:.98;letter-spacing:-.02em}
+  h1 .g{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;
+      background-size:200% auto;animation:shine 6s linear infinite}
+  @keyframes shine{to{background-position:200% center}}
+  .role{font-family:'Space Grotesk',sans-serif;font-size:clamp(1.2rem,3vw,1.9rem);color:var(--muted);margin-top:18px;font-weight:500}
+  .tag{max-width:620px;margin-top:24px;color:var(--muted);font-size:1.05rem}
+  .cta{display:flex;flex-wrap:wrap;gap:14px;margin-top:38px}
+  .btn{display:inline-flex;align-items:center;gap:9px;padding:12px 22px;border-radius:12px;font-weight:600;font-size:.92rem;
+      border:1px solid var(--line);transition:.25s;background:var(--panel)}
+  .btn:hover{transform:translateY(-2px);border-color:rgba(255,255,255,.25)}
+  .btn.primary{background:var(--grad);border:none;color:#0a0a12}
+  .btn.primary:hover{box-shadow:0 12px 40px -10px rgba(168,85,247,.7)}
+
+  /* stats */
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+  @media(max-width:760px){.stats{grid-template-columns:repeat(2,1fr)}}
+  .stat{padding:26px 20px;border:1px solid var(--line);border-radius:16px;background:var(--panel)}
+  .stat .n{font-family:'Space Grotesk',sans-serif;font-size:clamp(2rem,5vw,3rem);font-weight:700;
+      background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .stat .l{color:var(--muted);font-size:.85rem;margin-top:6px}
+
+  /* headings */
+  .kicker{font-family:var(--mono);color:var(--c2);font-size:.8rem;letter-spacing:2px;text-transform:uppercase}
+  h2{font-family:'Space Grotesk',sans-serif;font-size:clamp(1.8rem,4.5vw,2.8rem);font-weight:700;margin:10px 0 8px;letter-spacing:-.01em}
+  .lead{color:var(--muted);max-width:640px;margin-bottom:46px}
+
+  /* about */
+  .about p{color:#c9c9da;font-size:1.12rem;max-width:760px}
+  .about p+p{margin-top:18px}
+  .about strong{color:var(--txt);font-weight:600}
+
+  /* work grid */
+  .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+  @media(max-width:760px){.grid{grid-template-columns:1fr}}
+  .card{position:relative;padding:30px;border:1px solid var(--line);border-radius:18px;background:var(--panel);overflow:hidden;transition:.3s}
+  .card::before{content:"";position:absolute;inset:0;border-radius:18px;padding:1px;background:var(--grad);
+      -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;opacity:0;transition:.3s}
+  .card:hover{transform:translateY(-4px)}
+  .card:hover::before{opacity:1}
+  .card .num{font-family:var(--mono);font-size:.78rem;color:var(--c1)}
+  .card h3{font-family:'Space Grotesk',sans-serif;font-size:1.28rem;margin:10px 0 10px;font-weight:600}
+  .card p{color:var(--muted);font-size:.96rem}
+  .card .stack{display:flex;flex-wrap:wrap;gap:7px;margin-top:16px}
+  .chip{font-family:var(--mono);font-size:.72rem;color:#cbd5e1;padding:4px 10px;border:1px solid var(--line);border-radius:999px;background:rgba(255,255,255,.02)}
+
+  /* skills */
+  .skillcols{display:grid;grid-template-columns:repeat(2,1fr);gap:22px}
+  @media(max-width:760px){.skillcols{grid-template-columns:1fr}}
+  .skillcat{border:1px solid var(--line);border-radius:16px;padding:24px;background:var(--panel)}
+  .skillcat h4{font-family:var(--mono);font-size:.78rem;letter-spacing:1px;text-transform:uppercase;color:var(--c1);margin-bottom:16px}
+  .skillcat .chip{font-size:.8rem;margin:0 6px 8px 0;display:inline-block}
+
+  /* writing */
+  .write-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:30px}
+  @media(max-width:760px){.write-grid{grid-template-columns:1fr}}
+  .art{padding:22px;border:1px solid var(--line);border-radius:14px;background:var(--panel);transition:.25s}
+  .art:hover{transform:translateY(-3px);border-color:rgba(255,255,255,.22)}
+  .art .t{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:1rem}
+  .art .m{font-family:var(--mono);font-size:.72rem;color:var(--muted);margin-top:8px}
+
+  /* footer */
+  footer{border-top:1px solid var(--line);padding:60px 0 70px;text-align:center}
+  footer h2{margin-bottom:8px}
+  .flinks{display:flex;justify-content:center;flex-wrap:wrap;gap:14px;margin-top:26px}
+  .copy{color:var(--muted);font-family:var(--mono);font-size:.76rem;margin-top:36px}
+
+  /* reveal */
+  .reveal{opacity:0;transform:translateY(26px);transition:.7s cubic-bezier(.2,.7,.2,1)}
+  .reveal.in{opacity:1;transform:none}
+</style>
+</head>
+<body>
+<div class="bg-fx"></div>
+<div class="grid-fx"></div>
+
+<nav id="nav">
+  <div class="logo">dylan<b>.crow</b>()</div>
+  <div class="nav-links">
+    <a href="#about">about</a>
+    <a href="#work">work</a>
+    <a href="#skills">skills</a>
+    <a href="#writing">writing</a>
+    <a href="#contact">contact</a>
+  </div>
+</nav>
+
+<header class="hero wrap">
+  <div class="eyebrow reveal">Unity / XR Engineer</div>
+  <h1 class="reveal">I build <span class="g">immersive</span><br/>software, and the<br/>tools that ship it.</h1>
+  <div class="role reveal">Quest &middot; iOS &middot; Android &middot; Windows &mdash; one codebase.</div>
+  <p class="tag reveal">I architect and ship multi-platform VR/AR training experiences in Unity, from the interaction systems and real-time multiplayer down to the build pipelines and internal tooling that hold it all together.</p>
+  <div class="cta reveal">
+    <a class="btn primary" href="#work">View the work</a>
+    <a class="btn" href="https://www.linkedin.com/in/dylan-rider-crow" target="_blank" rel="noopener">LinkedIn</a>
+    <a class="btn" href="https://github.com/arkantose" target="_blank" rel="noopener">GitHub</a>
+    <a class="btn" href="https://medium.com/@arkantose.dc" target="_blank" rel="noopener">Medium</a>
+  </div>
+</header>
+
+<section class="wrap">
+  <div class="stats">
+    <div class="stat reveal"><div class="n" data-to="4">0</div><div class="l">Platforms shipped</div></div>
+    <div class="stat reveal"><div class="n" data-to="20" data-suffix="+">0</div><div class="l">Training modules delivered</div></div>
+    <div class="stat reveal"><div class="n" data-to="3000" data-suffix="+">0</div><div class="l">Asset conflicts auto-resolved</div></div>
+    <div class="stat reveal"><div class="n" data-to="70" data-suffix="+">0</div><div class="l">Technical articles written</div></div>
+  </div>
+</section>
+
+<section id="about" class="wrap about">
+  <div class="kicker reveal">01 &mdash; About</div>
+  <h2 class="reveal">Engineer first. Tool-builder always.</h2>
+  <p class="reveal">I build immersive training software in Unity, and the infrastructure that ships it. Over the past stretch I have taken a single XR training product across <strong>four platforms</strong> &mdash; Quest/XR, Android, Windows, and iOS &mdash; each with its own graphics API, build configuration, and content pipeline.</p>
+  <p class="reveal">The thread running through all of it is <strong>tooling</strong>. When merging a dozen contributor branches started breaking scenes, I built a GUID conflict detector and remapper to catch the problems before the merge instead of after. When the team needed authoring and sync workflows, I built those too. I would rather spend a day building the tool that saves the team a week than just do the week.</p>
+  <p class="reveal">I came to engineering from teaching math, which is probably why I care so much about making hard things legible: failing safe, turning scary pipelines into repeatable steps, and instrumenting for the data that actually tells you something. In XR, that means measuring where people <em>look</em>, not just what they tap.</p>
+</section>
+
+<section id="work" class="wrap">
+  <div class="kicker reveal">02 &mdash; Selected Work</div>
+  <h2 class="reveal">Things I have built and shipped</h2>
+  <p class="lead reveal">A multi-platform XR training platform and the systems around it. Built in Unity with XR Interaction Toolkit, Photon Fusion, Addressables, and a lot of purpose-built tooling.</p>
+  <div class="grid">
+    <div class="card reveal"><div class="num">// 01</div><h3>Four platforms, one codebase</h3><p>Shipped the same XR training app to Quest/XR, Android, Windows, and iOS from a single Unity project. Per-platform graphics APIs (Vulkan, GLES3, IL2CPP, DirectX), build configs, and Addressables profiles &mdash; including tracking down a Vulkan black-screen and falling back to GLES3 on Android.</p><div class="stack"><span class="chip">Unity</span><span class="chip">URP</span><span class="chip">OpenXR</span><span class="chip">IL2CPP</span></div></div>
+
+    <div class="card reveal"><div class="num">// 02</div><h3>On-demand content delivery</h3><p>Architected remote module loading with Unity Addressables and Cloud Content Delivery, so the app installs small and pulls content only when it is opened. Separate CCD buckets and profiles per platform, with build-time checks to stop silent catalog mismatches.</p><div class="stack"><span class="chip">Addressables</span><span class="chip">CCD</span><span class="chip">DevOps</span></div></div>
+
+    <div class="card reveal"><div class="num">// 03</div><h3>Internal tooling, from scratch</h3><p>A GUID conflict detector and remapper that scans contributor branches before merge and auto-resolves thousands of asset collisions &mdash; weeks of broken-scene cleanup avoided. Plus a web-to-engine pipeline for authoring storyboards in the browser and syncing them straight into Unity.</p><div class="stack"><span class="chip">PowerShell</span><span class="chip">GitHub CLI</span><span class="chip">Editor Tools</span></div></div>
+
+    <div class="card reveal"><div class="num">// 04</div><h3>Real-time multiplayer</h3><p>Networked training sessions with Photon Fusion: state sync across VR and desktop clients, host migration, and networked interactions that keep hand-tracked and mouse-driven players in lockstep.</p><div class="stack"><span class="chip">Photon Fusion</span><span class="chip">Netcode</span><span class="chip">State Sync</span></div></div>
+
+    <div class="card reveal"><div class="num">// 05</div><h3>iOS distribution from zero</h3><p>Stood up the full Apple signing chain and a cloud build pipeline &mdash; CSR, distribution certificate, provisioning profile, p12, TestFlight &mdash; without owning a Mac. Demystified once, repeatable forever.</p><div class="stack"><span class="chip">iOS</span><span class="chip">CI/CD</span><span class="chip">Cloud Build</span></div></div>
+
+    <div class="card reveal"><div class="num">// 06</div><h3>Spatial analytics</h3><p>Integrated gaze and dwell analytics into XR training to see where learners hesitate and which steps confuse them. Built as a fail-safe capability layer that compiles and runs as a no-op until keys are configured, so it ships safely and switches on later.</p><div class="stack"><span class="chip">Cognitive3D</span><span class="chip">Gaze Data</span><span class="chip">Analytics</span></div></div>
+  </div>
+</section>
+
+<section id="skills" class="wrap">
+  <div class="kicker reveal">03 &mdash; Toolbox</div>
+  <h2 class="reveal">What I work in</h2>
+  <p class="lead reveal">Generalist by necessity and by choice &mdash; engine, networking, backend, build, and 3D.</p>
+  <div class="skillcols">
+    <div class="skillcat reveal"><h4>Engine &amp; XR</h4>
+      <span class="chip">Unity</span><span class="chip">C#</span><span class="chip">XR Interaction Toolkit</span><span class="chip">OpenXR</span><span class="chip">Universal Render Pipeline</span><span class="chip">UI Toolkit</span><span class="chip">Mixed Reality</span>
+    </div>
+    <div class="skillcat reveal"><h4>Multiplayer &amp; Backend</h4>
+      <span class="chip">Photon Fusion</span><span class="chip">State Sync</span><span class="chip">Supabase</span><span class="chip">REST APIs</span><span class="chip">Auth / OTP</span>
+    </div>
+    <div class="skillcat reveal"><h4>Build &amp; DevOps</h4>
+      <span class="chip">Addressables</span><span class="chip">Cloud Content Delivery</span><span class="chip">iOS Distribution</span><span class="chip">CI/CD</span><span class="chip">Git</span><span class="chip">GitHub CLI</span><span class="chip">PowerShell</span>
+    </div>
+    <div class="skillcat reveal"><h4>3D &amp; Content</h4>
+      <span class="chip">Blender</span><span class="chip">Environment Art</span><span class="chip">Lighting / Bakery</span><span class="chip">Obi Rope</span><span class="chip">Shader Graph</span>
+    </div>
+  </div>
+</section>
+
+<section id="writing" class="wrap">
+  <div class="kicker reveal">04 &mdash; Writing</div>
+  <h2 class="reveal">70+ articles on Unity &amp; C#</h2>
+  <p class="lead reveal">I write about the things that bite me so they do not bite you. Find the full catalog on <a style="color:var(--c1)" href="https://medium.com/@arkantose.dc" target="_blank" rel="noopener">Medium</a>.</p>
+  <div class="write-grid">
+    <a class="art reveal" href="https://medium.com/@arkantose.dc/using-decals-in-unity-46c16b07762a" target="_blank" rel="noopener"><div class="t">Using Decals in Unity</div><div class="m">unity &middot; rendering</div></a>
+    <a class="art reveal" href="https://medium.com/@arkantose.dc" target="_blank" rel="noopener"><div class="t">The Curious Case of Race Conditions</div><div class="m">unity &middot; debugging</div></a>
+    <a class="art reveal" href="https://medium.com/@arkantose.dc" target="_blank" rel="noopener"><div class="t">Why the public access modifier can be problematic</div><div class="m">c# &middot; architecture</div></a>
+  </div>
+</section>
+
+<footer id="contact" class="wrap">
+  <div class="kicker reveal">05 &mdash; Contact</div>
+  <h2 class="reveal">Let&rsquo;s build something immersive.</h2>
+  <p class="lead reveal" style="margin:8px auto 0">Open to interesting problems in XR, Unity, and the tooling around them.</p>
+  <div class="flinks reveal">
+    <a class="btn primary" href="https://www.linkedin.com/in/dylan-rider-crow" target="_blank" rel="noopener">LinkedIn</a>
+    <a class="btn" href="https://github.com/arkantose" target="_blank" rel="noopener">GitHub</a>
+    <a class="btn" href="https://medium.com/@arkantose.dc" target="_blank" rel="noopener">Medium</a>
+    <a class="btn" href="mailto:arkantose.dc@gmail.com">Email</a>
+  </div>
+  <div class="copy">Designed &amp; built by Dylan Crow &middot; Unity / XR Engineer</div>
+</footer>
+
+<script>
+  // nav shade
+  const nav=document.getElementById('nav');
+  addEventListener('scroll',()=>nav.classList.toggle('scrolled',scrollY>20));
+
+  // scroll reveal
+  const io=new IntersectionObserver((es)=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}}),{threshold:.14});
+  document.querySelectorAll('.reveal').forEach((el,i)=>{el.style.transitionDelay=(i%6*40)+'ms';io.observe(el);});
+
+  // count up
+  const countio=new IntersectionObserver((es)=>es.forEach(e=>{
+    if(!e.isIntersecting)return; countio.unobserve(e.target);
+    const el=e.target,to=+el.dataset.to,suf=el.dataset.suffix||'';let t0=null,dur=1400;
+    const step=(t)=>{if(!t0)t0=t;const p=Math.min((t-t0)/dur,1);const ease=1-Math.pow(1-p,3);
+      let v=Math.floor(ease*to); el.textContent=(to>=1000?v.toLocaleString():v)+suf; if(p<1)requestAnimationFrame(step); else el.textContent=(to>=1000?to.toLocaleString():to)+suf;};
+    requestAnimationFrame(step);
+  }),{threshold:.5});
+  document.querySelectorAll('.stat .n').forEach(el=>countio.observe(el));
+</script>
+</body>
+</html>
