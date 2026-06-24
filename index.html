@@ -208,6 +208,21 @@
   #catFx .bolt{position:absolute;top:0;width:3px;height:100%;background:linear-gradient(#eaf6ff,#37b6ff);box-shadow:0 0 14px 3px rgba(120,200,255,.9);opacity:0}
   #catFx .sparkle{position:absolute;width:7px;height:7px;background:radial-gradient(circle,#fff,#ffe9a0 60%,transparent);border-radius:50%}
   #catFx .arc{position:absolute;width:64%;height:64%;left:18%;top:12%;border-radius:50%;border:3px solid transparent;border-top-color:#cdd6e0;border-right-color:#9fb0c2;opacity:0}
+  /* ice spell: flash + frost ring + radial shards + flung chunks */
+  #catFx .ice-flash{position:absolute;width:42px;height:42px;border-radius:50%;transform:translate(-50%,-50%);background:radial-gradient(circle,#fff,#bfefff 55%,transparent 72%);box-shadow:0 0 34px 13px rgba(160,235,255,.75);animation:iceFlash .55s ease-out forwards}
+  @keyframes iceFlash{0%{opacity:.98;transform:translate(-50%,-50%) scale(.3)}100%{opacity:0;transform:translate(-50%,-50%) scale(2.5)}}
+  #catFx .ice-ring{position:absolute;border:4px solid rgba(160,235,255,.85);border-radius:50%;transform:translate(-50%,-50%);box-shadow:0 0 16px 4px rgba(140,225,255,.6),inset 0 0 12px rgba(160,235,255,.5);animation:iceRing .6s ease-out forwards}
+  @keyframes iceRing{0%{opacity:.9;width:12px;height:12px;border-width:5px}100%{opacity:0;width:170px;height:170px;border-width:1px}}
+  #catFx .ice-shard{position:absolute;width:5px;height:0;transform-origin:50% 0;border-radius:2px 2px 0 0;background:linear-gradient(#f2fdff,#7fd4ff);box-shadow:0 0 8px 2px rgba(140,225,255,.7);animation:iceShard .6s cubic-bezier(.2,.7,.3,1) forwards}
+  @keyframes iceShard{0%{height:0;opacity:0}35%{opacity:1}70%{height:var(--len,40px);opacity:1}100%{height:var(--len,40px);opacity:0}}
+  #catFx .ice-chunk{position:absolute;width:11px;height:11px;transform:translate(-50%,-50%);background:linear-gradient(135deg,#f2fdff,#7fd4ff);box-shadow:0 0 7px 1px rgba(140,225,255,.7);clip-path:polygon(50% 0,100% 38%,82% 100%,18% 100%,0 38%);animation:iceChunk .72s cubic-bezier(.2,.6,.3,1) forwards}
+  @keyframes iceChunk{0%{opacity:1;transform:translate(-50%,-50%) rotate(0)}100%{opacity:0;transform:translate(calc(-50% + var(--dx)),calc(-50% + var(--dy))) rotate(var(--r,220deg)) scale(.4)}}
+  /* Link's floating companion sword (idle bob + swing) */
+  #catHeroSlot .link-sword{position:absolute;left:72%;top:14%;width:34px;height:74px;pointer-events:none;z-index:13;transform-origin:50% 78%;animation:swordBob 2.6s ease-in-out infinite}
+  #catHeroSlot .link-sword svg{width:100%;height:100%;display:block;filter:drop-shadow(0 4px 6px rgba(0,20,45,.4))}
+  @keyframes swordBob{0%,100%{transform:translateY(0) rotate(6deg)}50%{transform:translateY(-7px) rotate(-2deg)}}
+  #catHeroSlot .link-sword.swing{animation:swordSwing .5s cubic-bezier(.4,.05,.3,1)}
+  @keyframes swordSwing{0%{transform:translateY(0) rotate(-58deg)}35%{transform:translateY(-10px) rotate(54deg)}60%{transform:translateY(-2px) rotate(40deg)}100%{transform:translateY(0) rotate(6deg)}}
   /* dress-up controls */
   .dress{border:1px solid var(--line);border-radius:14px;background:var(--panel);padding:18px 20px;margin-top:6px}
   .dress-head{font-family:'Space Grotesk',sans-serif;font-weight:600;color:var(--txt);font-size:1rem}
@@ -634,15 +649,31 @@
     function spin(){ if(!fx)return; const a=document.createElement('div'); a.className='arc'; fx.appendChild(a); a.animate([{transform:'rotate(0)',opacity:0},{opacity:1,offset:.2},{transform:'rotate(720deg)',opacity:0}],{duration:600,easing:'ease-out'}); setTimeout(()=>a.remove(),620); }
     function castSpell(kind){ if(!fx)return;
       if(kind==='fire'){ PS.tone(150,0,0.42,'sine',0.13); PS.tone(80,0.05,0.4,'sine',0.1); const fb=document.createElement('div'); fb.className='fireball'; fb.style.top='40%'; fb.style.left='50%'; fb.style.transform='translate(-50%,-50%)'; fx.appendChild(fb); const dir=Math.random()<.5?-1:1; fb.animate([{left:'50%',opacity:.6,transform:'translate(-50%,-50%) scale(.6)'},{opacity:1,offset:.15,transform:'translate(-50%,-50%) scale(1)'},{left:(dir<0?'-10%':'110%'),opacity:1,transform:'translate(-50%,-50%) scale(1.1)'}],{duration:620,easing:'cubic-bezier(.4,0,.7,1)'}); setTimeout(()=>{ const fl=document.createElement('div'); fl.className='flash'; fl.style.left=(dir<0?'-10%':'110%'); fl.style.top='40%'; fx.appendChild(fl); fl.animate([{opacity:0,transform:'scale(.3)'},{opacity:.9,offset:.2,transform:'scale(.8)'},{opacity:0,transform:'scale(1.4)'}],{duration:380,easing:'ease-out'}); sparkles(10,dir<0?-10:110,40); fb.remove(); setTimeout(()=>fl.remove(),400); },600); }
-      else if(kind==='ice'){ [2093,2637,3136,2349].forEach((f,n)=>PS.tone(f,n*0.03,0.45,'sine',0.05)); const N=10; for(let i=0;i<N;i++){ (function(i){ const ang=(i/N)*Math.PI*2,r=100; const fr=document.createElement('div'); fr.className='frost'; const tr=`translate(calc(-50% + ${Math.cos(ang)*r}px),calc(-50% + ${Math.sin(ang)*r*.6}px))`; fr.style.left='50%'; fr.style.top='42%'; fr.style.transform=tr; fx.appendChild(fr); setTimeout(()=>{ fr.animate([{opacity:0,transform:tr+' scale(.3)'},{opacity:1,offset:.3,transform:tr+' scale(1.3)'},{opacity:0,transform:tr+' scale(2)'}],{duration:420,easing:'ease-out'}); setTimeout(()=>fr.remove(),430); }, i*55); })(i);} }
+      else if(kind==='ice'){
+        const W=fx.clientWidth||220, H=fx.clientHeight||300;
+        const iceBurst=(x,y,s)=>{
+          const fl=document.createElement('div'); fl.className='ice-flash'; fl.style.left=x+'px'; fl.style.top=y+'px'; fl.style.transform=`translate(-50%,-50%) scale(${s.toFixed(2)})`; fx.appendChild(fl); setTimeout(()=>fl.remove(),560);
+          const ring=document.createElement('div'); ring.className='ice-ring'; ring.style.left=x+'px'; ring.style.top=y+'px'; fx.appendChild(ring); setTimeout(()=>ring.remove(),620);
+          const N=Math.round(10*s); for(let i=0;i<N;i++){ const ang=(i/N)*360+(Math.random()*16-8), len=(22+Math.random()*26)*s; const sh=document.createElement('div'); sh.className='ice-shard'; sh.style.left=x+'px'; sh.style.top=y+'px'; sh.style.transform=`translate(-50%,0) rotate(${ang}deg)`; sh.style.setProperty('--len',len.toFixed(0)+'px'); sh.style.animationDelay=(Math.random()*0.08).toFixed(2)+'s'; fx.appendChild(sh); setTimeout(()=>sh.remove(),720); }
+          for(let j=0;j<7;j++){ const a2=(j/7)*6.283+Math.random()*0.5, d2=(22+Math.random()*30)*s; const ck=document.createElement('div'); ck.className='ice-chunk'; ck.style.left=x+'px'; ck.style.top=y+'px'; ck.style.setProperty('--dx',(Math.cos(a2)*d2).toFixed(0)+'px'); ck.style.setProperty('--dy',(Math.sin(a2)*d2).toFixed(0)+'px'); ck.style.setProperty('--r',((Math.random()*360-180)|0)+'deg'); fx.appendChild(ck); setTimeout(()=>ck.remove(),740); }
+        };
+        const cx=W*0.5, cy=H*0.42, R=Math.min(W,H)*0.4, mines=6;
+        for(let i=0;i<mines;i++){ (function(k){ setTimeout(()=>{ const ang=(k/mines)*6.283+(Math.random()*0.5-0.25); iceBurst(cx+Math.cos(ang)*R, cy+Math.sin(ang)*R*0.72, 0.7+Math.random()*0.4); PS.tone(2093+Math.random()*700,0,0.2,'sine',0.05); burst('❄️',1); },k*90); })(i); }
+        setTimeout(()=>{ iceBurst(cx,cy,1.5); [2093,2637,3136,2349].forEach((f,n)=>PS.tone(f,n*0.03,0.45,'sine',0.05)); burst('❄️',3); }, mines*90+40);
+      }
       else { PS.tone(3200,0,0.14,'sawtooth',0.09); PS.tone(120,0.04,0.5,'sine',0.08); const fl=document.createElement('div'); fl.className='flash'; fl.style.inset='-60%'; fx.appendChild(fl); fl.animate([{opacity:.95},{opacity:0,offset:.25},{opacity:.7,offset:.4},{opacity:0}],{duration:480,easing:'ease-out'}); for(let k=0;k<3;k++){ (function(k){ const bz=document.createElement('div'); bz.className='bolt'; bz.style.left=(28+k*22+Math.random()*8)+'%'; fx.appendChild(bz); bz.animate([{opacity:0},{opacity:1,offset:.1},{opacity:0,offset:.3},{opacity:.8,offset:.45},{opacity:0}],{duration:420}); setTimeout(()=>bz.remove(),440); })(k);} }
     }
 
     // per-outfit signature special: a themed effect + sound
+    // Link's floating companion sword: shown while equipped, swings on poke
+    const SWORD='<svg viewBox="0 0 30 64" xmlns="http://www.w3.org/2000/svg"><path d="M15 2 L18 8 L18 42 L12 42 L12 8 Z" fill="#d9e6ef" stroke="#7c8b97" stroke-width="1" stroke-linejoin="round"/><path d="M15 2 L15 42" stroke="#aebcc7" stroke-width="0.8"/><path d="M6 42 L24 42 L24 46 L6 46 Z" fill="#2f7d33" stroke="#184a1c" stroke-width="1" stroke-linejoin="round"/><circle cx="15" cy="44" r="2.3" fill="#ffd86b" stroke="#b88a1e" stroke-width="0.7"/><rect x="13" y="46" width="4" height="13" rx="1.4" fill="#5a3a22" stroke="#3a2414" stroke-width="0.9"/><circle cx="15" cy="61" r="2.6" fill="#c9a23a" stroke="#7c5e16" stroke-width="0.8"/></svg>';
+    function setSword(on){ if(!slot)return; let s=slot.querySelector('.link-sword'); if(on){ if(!s){ s=document.createElement('div'); s.className='link-sword'; s.innerHTML=SWORD; slot.appendChild(s); } } else if(s){ s.remove(); } }
+    function swordSwing(){ const s=slot&&slot.querySelector('.link-sword'); if(!s)return; s.classList.remove('swing'); void s.offsetWidth; s.classList.add('swing'); setTimeout(()=>s.classList.remove('swing'),520); }
+
     function special(k){
       react();
       if(k==='vivi'){ PS.vivi(); if(Math.random()<0.6) castSpell(rand(['fire','ice','lightning'])); else sparkles(8); return; }
-      if(k==='link'){ spin(); PS.tone(160,0,0.3,'triangle',0.1); PS.tone(520,0.18,0.3,'triangle',0.07); burst('⚔️',2); return; }
+      if(k==='link'){ setSword(true); PS.tone(160,0,0.3,'triangle',0.1); PS.tone(520,0.18,0.3,'triangle',0.07); if(Math.random()<0.78) swordSwing(); else spin(); burst('⚔️',1); return; }
       PS.meow(0.85+Math.random()*0.3);
       if(k==='wizard'){ sparkles(8); burst('✨',6); }
       else if(k==='superhero'){ burst('💨',3); PS.tone(300,0,0.18,'sawtooth',0.06); }
@@ -666,6 +697,7 @@
     btns.forEach(b=>b.addEventListener('click',()=>{
       const k=b.getAttribute('data-cos')||'';
       cat.setAttribute('data-cos', k);
+      setSword(k==='link');
       btns.forEach(x=>x.classList.toggle('is-on', x===b));
       react();
       if(k){ say(rand(COS[k]||phrases)); if(k==='vivi') PS.vivi(); else if(k==='kpop'){ burst('✨',5); PS.tone(880,0,0.14,'square',0.07); PS.tone(1320,0.1,0.18,'square',0.06); } else { sparkles(5); PS.meow(1.05+Math.random()*0.2); } }
