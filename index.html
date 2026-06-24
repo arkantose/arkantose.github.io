@@ -143,6 +143,7 @@
   .frame iframe{display:block;width:100%;height:620px;border:0;background:#fff}
   .frame-poster{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:15px;height:540px;text-align:center;padding:24px;background:radial-gradient(circle at 50% 36%,rgba(34,211,238,.12),transparent 64%),#0d0d16}
   .frame-poster img{width:120px;height:120px;border-radius:27px;box-shadow:0 18px 44px -12px rgba(0,0,0,.85)}
+  .poster-ic{width:104px!important;height:104px!important;border-radius:24px;box-shadow:0 18px 44px -12px rgba(0,0,0,.85)}
   .poster-txt{color:var(--muted);font-size:.92rem;max-width:300px}
   .launch-btn{cursor:pointer;font-family:inherit}
   .frame-cap{margin-top:10px;font-family:var(--mono);font-size:.72rem;color:var(--muted);text-align:center}
@@ -377,6 +378,25 @@
         <p>Biomedical authors used to draft VR-training storyboards in scattered docs. I built them one Atlassian Forge macro that turns a Confluence page into a full authoring studio: steps and sub-steps, AI voice narration with inline players, Unity interaction mapping, and a proofreading pass, all saved into the page itself and synced into the Unity editor. It is the most API-dense thing I have shipped, and most of those APIs are AI.</p>
         <p class="flowline">author in Confluence  &rarr;  generate AI narration + proof the copy  &rarr;  sync the storyboard into Unity</p>
       </div>
+      <div class="frame">
+        <div class="frame-bar"><span></span><span></span><span></span><div class="frame-url">storyboard editor, live demo</div></div>
+        <div class="frame-poster" id="forgePoster">
+          <span class="app-icon forge-ic poster-ic">
+            <svg viewBox="0 0 40 40" fill="none" aria-hidden="true">
+              <rect x="9" y="6" width="22" height="28" rx="3" fill="#fff" opacity=".96"/>
+              <rect x="13" y="12" width="14" height="2" rx="1" fill="#7a3cff"/>
+              <rect x="13" y="17" width="14" height="2" rx="1" fill="#cbd5e1"/>
+              <rect x="13" y="22" width="9" height="2" rx="1" fill="#cbd5e1"/>
+              <circle cx="27.5" cy="28" r="6" fill="#22d3ee"/>
+              <path d="M25.6 25.4 L30.2 28 L25.6 30.6 Z" fill="#06060b"/>
+              <path d="M30 7 l1 2.4 2.6 .4 -1.9 1.8 .5 2.6 -2.2 -1.2 -2.2 1.2 .5 -2.6 -1.9 -1.8 2.6 -.4 Z" fill="#f4c542"/>
+            </svg>
+          </span>
+          <div class="poster-txt">The real Confluence macro, running on mock data. No login, no API keys.</div>
+          <button class="btn primary launch-btn" id="forgeLaunch">&#9654;&nbsp; Launch the demo</button>
+        </div>
+      </div>
+      <div class="frame-cap">The same React app that runs inside Confluence, here with the four APIs stubbed. Try <b>Generate All Audio</b>, <b>Check Text</b>, or <b>Generate Interaction Names</b>.</div>
       <div class="apigrid">
         <div class="apicard"><div class="ah"><h5>Atlassian Forge + Confluence</h5><span class="abadge">platform</span></div><p>A Forge macro with a Node resolver. The whole storyboard lives as a Confluence content property on the page, generated audio rides along as attachments, and edits are permission-gated.</p></div>
         <div class="apicard"><div class="ah"><h5>ElevenLabs</h5><span class="abadge ai">AI voice</span></div><p>Authors type a line of narration and get studio-quality text-to-speech back inline. The resolver lists voices and calls the TTS endpoint, then attaches the clip to the page.</p></div>
@@ -484,6 +504,16 @@
       const p=document.getElementById('fetchPoster');
       const f=document.createElement('iframe');
       f.src='apps/fetch/'; f.title='Fetch live demo';
+      p.replaceWith(f);
+    });
+  })();
+  (function(){
+    const fl=document.getElementById('forgeLaunch');
+    if(!fl)return;
+    fl.addEventListener('click',()=>{
+      const p=document.getElementById('forgePoster');
+      const f=document.createElement('iframe');
+      f.src='apps/forge/'; f.title='NVRT Storyboard Editor live demo';
       p.replaceWith(f);
     });
   })();
