@@ -232,6 +232,27 @@
   @keyframes whirlRing{0%{opacity:0;width:16px;height:16px}22%{opacity:.95}100%{opacity:0;width:168px;height:168px}}
   #catHeroSlot .cat-svg.herospin{animation:heroSpin .85s ease!important}
   @keyframes heroSpin{0%,100%{transform:translateY(0) scale(1) rotate(0)}18%{transform:translateY(4px) scale(.95)}52%{transform:translateY(-5px) scale(1.04) rotate(9deg)}80%{transform:translateY(0) rotate(-5deg)}}
+  /* K-Pop idol: concert stage (swaying spotlights + twirling glow sticks) + dance moves */
+  #catHeroSlot #kstage{position:absolute;left:-12%;right:-12%;top:-22%;bottom:0;pointer-events:none;opacity:0;transition:opacity .4s;z-index:11;overflow:visible}
+  #catHeroSlot #kstage.show{opacity:1}
+  #catHeroSlot .kspot{position:absolute;top:-12%;width:62%;height:150%;transform-origin:top center;mix-blend-mode:screen}
+  #catHeroSlot .kspot.l{left:-8%;background:radial-gradient(ellipse at top,rgba(255,90,180,.34),transparent 62%);animation:kspotL 1.7s ease-in-out infinite}
+  #catHeroSlot .kspot.r{right:-8%;background:radial-gradient(ellipse at top,rgba(90,180,255,.34),transparent 62%);animation:kspotR 1.7s ease-in-out infinite}
+  @keyframes kspotL{0%,100%{transform:rotate(-15deg)}50%{transform:rotate(7deg)}}
+  @keyframes kspotR{0%,100%{transform:rotate(15deg)}50%{transform:rotate(-7deg)}}
+  #catHeroSlot .kstick{position:absolute;bottom:6%;width:8px;height:30px;border-radius:5px;transform-origin:bottom center}
+  #catHeroSlot .kstick.l{left:10%;background:linear-gradient(#fff,#ff5db4);box-shadow:0 0 11px 3px rgba(255,93,180,.85);animation:kbobL .48s ease-in-out infinite}
+  #catHeroSlot .kstick.r{right:10%;background:linear-gradient(#fff,#5db4ff);box-shadow:0 0 11px 3px rgba(93,180,255,.85);animation:kbobR .48s ease-in-out infinite}
+  @keyframes kbobL{0%,100%{transform:rotate(-22deg)}50%{transform:rotate(14deg)}}
+  @keyframes kbobR{0%,100%{transform:rotate(22deg)}50%{transform:rotate(-14deg)}}
+  #catHeroSlot .cat-svg.kd-spin{animation:kdSpin .96s ease-in-out infinite!important}
+  @keyframes kdSpin{0%{transform:perspective(320px) rotateY(0)}100%{transform:perspective(320px) rotateY(360deg)}}
+  #catHeroSlot .cat-svg.kd-flip{animation:kdFlip .62s ease-in-out infinite!important}
+  @keyframes kdFlip{0%{transform:perspective(340px) rotateX(0)}100%{transform:perspective(340px) rotateX(360deg)}}
+  #catHeroSlot .cat-svg.kd-sway{animation:kdSway .6s ease-in-out infinite!important}
+  @keyframes kdSway{0%,100%{transform:translateX(-7px) rotate(-6deg)}50%{transform:translateX(7px) rotate(6deg)}}
+  #catHeroSlot .cat-svg.kd-jump{animation:kdJump .5s ease infinite!important}
+  @keyframes kdJump{0%,100%{transform:translateY(0) scale(1)}32%{transform:translateY(-20px) scale(1.06)}52%{transform:translateY(-22px) scale(1.06)}}
   /* dress-up controls */
   .dress{border:1px solid var(--line);border-radius:14px;background:var(--panel);padding:18px 20px;margin-top:6px}
   .dress-head{font-family:'Space Grotesk',sans-serif;font-weight:600;color:var(--txt);font-size:1rem}
@@ -694,9 +715,17 @@
     const WHIRL_SWORD='<svg viewBox="0 0 26 56" xmlns="http://www.w3.org/2000/svg"><path d="M13 1 L16 7 L16 37 L10 37 L10 7 Z" fill="#eaf3fb" stroke="#7c8b97" stroke-width="1" stroke-linejoin="round"/><path d="M13 1 L13 37" stroke="#aebcc7" stroke-width="0.8"/><path d="M4 37 L22 37 L22 41 L4 41 Z" fill="#2f7d33" stroke="#184a1c" stroke-width="1" stroke-linejoin="round"/><rect x="11" y="41" width="4" height="11" rx="1.3" fill="#5a3a22" stroke="#3a2414" stroke-width="0.9"/><circle cx="13" cy="53" r="2.4" fill="#c9a23a" stroke="#7c5e16" stroke-width="0.8"/></svg>';
     function linkSpinAttack(){ if(!slot||slot.querySelector('.whirl-rig'))return; const idle=slot.querySelector('.link-sword'); if(idle)idle.style.visibility='hidden'; const ring=document.createElement('div'); ring.className='whirl-ring'; slot.appendChild(ring); const rig=document.createElement('div'); rig.className='whirl-rig'; rig.innerHTML='<div class="whirl-sword">'+WHIRL_SWORD+'</div>'; slot.appendChild(rig); cat.classList.remove('herospin'); void cat.offsetWidth; cat.classList.add('herospin'); PS.tone(150,0,0.34,'triangle',0.1); PS.tone(520,0.16,0.34,'triangle',0.08); setTimeout(()=>PS.tone(760,0,0.16,'sawtooth',0.07),300); burst('✨',5); setTimeout(()=>{ if(rig.parentNode)rig.remove(); if(ring.parentNode)ring.remove(); cat.classList.remove('herospin'); if(idle)idle.style.visibility=''; },880); }
 
+    // K-Pop idol: a short concert burst, stage lights + twirling glow sticks + a dance move
+    const KMOVES=['kd-spin','kd-flip','kd-sway','kd-jump'];
+    function kClearMove(){ KMOVES.forEach(m=>cat.classList.remove(m)); }
+    function kSetMove(m){ kClearMove(); void cat.offsetWidth; cat.classList.add(m); }
+    function kStage(on){ if(!slot)return; let st=slot.querySelector('#kstage'); if(on){ if(!st){ st=document.createElement('div'); st.id='kstage'; st.innerHTML='<div class="kspot l"></div><div class="kspot r"></div><div class="kstick l"></div><div class="kstick r"></div>'; slot.appendChild(st); } void st.offsetWidth; st.classList.add('show'); } else if(st){ st.classList.remove('show'); setTimeout(()=>{ if(st&&!st.classList.contains('show')&&st.parentNode) st.remove(); },500); } }
+    function kpopShow(){ kStage(true); kSetMove(rand(KMOVES)); PS.tone(880,0,0.14,'square',0.07); PS.tone(1175,0.1,0.14,'square',0.06); PS.tone(1320,0.2,0.2,'square',0.06); burst(rand(['🎵','✨','💕']),3); setTimeout(()=>{ kClearMove(); kStage(false); },1700); }
+
     function special(k){
       if(k==='vivi'){ react(); PS.vivi(); if(Math.random()<0.6) castSpell(rand(['fire','ice','lightning'])); else sparkles(8); return; }
       if(k==='link'){ setSword(true); if(Math.random()<0.65) linkSpinAttack(); else { react(); swordSwing(); PS.tone(160,0,0.3,'triangle',0.1); PS.tone(520,0.18,0.3,'triangle',0.07); burst('⚔️',1); } return; }
+      if(k==='kpop'){ kpopShow(); return; }
       react();
       PS.meow(0.85+Math.random()*0.3);
       if(k==='wizard'){ sparkles(8); burst('✨',6); }
@@ -706,7 +735,6 @@
       else if(k==='party'){ petals(16); burst('🎉',3); PS.tone(880,0,0.16,'square',0.06); PS.tone(1320,0.1,0.18,'square',0.05); }
       else if(k==='detective'){ burst('🔍',2); }
       else if(k==='royal'){ burst('👑',2); burst('✨',4); }
-      else if(k==='kpop'){ burst(rand(['🎵','✨','💕']),3); PS.tone(880,0,0.14,'square',0.07); PS.tone(1175,0.1,0.14,'square',0.06); PS.tone(1320,0.2,0.18,'square',0.06); }
     }
 
     if(cat){ cat.addEventListener('click',()=>{
@@ -722,9 +750,11 @@
       const k=b.getAttribute('data-cos')||'';
       cat.setAttribute('data-cos', k);
       setSword(k==='link');
+      if(k!=='kpop'){ kStage(false); kClearMove(); }
       btns.forEach(x=>x.classList.toggle('is-on', x===b));
+      if(k==='kpop'){ say(rand(COS.kpop)); kpopShow(); return; }
       react();
-      if(k){ say(rand(COS[k]||phrases)); if(k==='vivi') PS.vivi(); else if(k==='kpop'){ burst('✨',5); PS.tone(880,0,0.14,'square',0.07); PS.tone(1320,0.1,0.18,'square',0.06); } else { sparkles(5); PS.meow(1.05+Math.random()*0.2); } }
+      if(k){ say(rand(COS[k]||phrases)); if(k==='vivi') PS.vivi(); else { sparkles(5); PS.meow(1.05+Math.random()*0.2); } }
       else { say('Back to the everyday cat.'); PS.meow(0.95); }
     }));
 
