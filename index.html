@@ -140,23 +140,48 @@
   .frame-bar span{width:10px;height:10px;border-radius:50%;background:#3a3a4a}
   .frame-bar span:nth-child(1){background:#ff5f57}.frame-bar span:nth-child(2){background:#febc2e}.frame-bar span:nth-child(3){background:#28c840}
   .frame-url{margin-left:8px;font-family:var(--mono);font-size:.72rem;color:var(--muted)}
-  .frame iframe{display:block;width:100%;height:540px;border:0;background:#fff}
+  .frame iframe{display:block;width:100%;height:620px;border:0;background:#fff}
   .frame-poster{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:15px;height:540px;text-align:center;padding:24px;background:radial-gradient(circle at 50% 36%,rgba(34,211,238,.12),transparent 64%),#0d0d16}
   .frame-poster img{width:120px;height:120px;border-radius:27px;box-shadow:0 18px 44px -12px rgba(0,0,0,.85)}
   .poster-txt{color:var(--muted);font-size:.92rem;max-width:300px}
   .launch-btn{cursor:pointer;font-family:inherit}
   .frame-cap{margin-top:10px;font-family:var(--mono);font-size:.72rem;color:var(--muted);text-align:center}
-  .cat-stage{position:relative;border:1px solid var(--line);border-radius:14px;overflow:hidden;aspect-ratio:16/10;background:#0d0d16}
-  .cat-scene{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.92}
-  .cat-sprite{position:absolute;right:6%;bottom:-3%;width:40%;filter:drop-shadow(0 12px 18px rgba(0,0,0,.5));animation:bob 3.2s ease-in-out infinite;cursor:pointer;user-select:none}
-  @keyframes bob{50%{transform:translateY(-7px)}}
-  .cat-bubble{position:absolute;left:6%;top:9%;max-width:55%;background:#fff;color:#16213a;font-size:.82rem;font-weight:600;padding:9px 13px;border-radius:13px;box-shadow:0 8px 22px rgba(0,0,0,.35);line-height:1.35}
-  .cat-bubble::after{content:"";position:absolute;bottom:-7px;left:22px;border:7px solid transparent;border-top-color:#fff;border-bottom:0}
-  .catfeats{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 13px}
-  .catchip{font-family:var(--mono);font-size:.74rem;color:#cbd5e1;padding:7px 13px;border:1px solid var(--line);border-radius:999px;background:rgba(255,255,255,.02);cursor:pointer;transition:.2s}
-  .catchip:hover{border-color:rgba(255,255,255,.32)}
-  .catchip.active{background:var(--grad);color:#0a0a12;border-color:transparent;font-weight:600}
-  .catdesc{color:#c9c9da;font-size:.95rem;min-height:44px}
+  /* stacked showcase */
+  .show-stack{display:flex;flex-direction:column;gap:18px;padding:clamp(20px,4vw,30px)}
+  .show-copy-full{max-width:760px}
+  .show-copy-full p{color:var(--muted);font-size:.98rem}
+  .show-copy-full .why{margin-top:14px;color:#cbd5e1}
+  .show-copy-full code{font-family:var(--mono);font-size:.85em;color:var(--c1)}
+  .show-copy-full b,.show-copy-full strong{color:var(--txt)}
+  /* cat command center */
+  .cat-hero{display:grid;grid-template-columns:.92fr 1.08fr;gap:24px;align-items:center;border:1px solid var(--line);border-radius:16px;background:radial-gradient(120% 130% at 82% -20%,rgba(0,156,244,.18),transparent 60%),#070b14;padding:clamp(20px,3.5vw,32px)}
+  @media(max-width:760px){.cat-hero{grid-template-columns:1fr}}
+  .catstageL{text-align:center}
+  .navycat{width:min(220px,72%);height:auto;display:block;margin:0 auto;filter:drop-shadow(0 16px 24px rgba(0,20,45,.55));animation:bob 4.4s ease-in-out infinite;cursor:pointer}
+  @keyframes bob{0%,100%{transform:translateY(0) rotate(-.4deg)}50%{transform:translateY(-12px) rotate(.4deg)}}
+  .cat-eyes{transform-box:fill-box;transform-origin:center;animation:blink 5.2s infinite}
+  @keyframes blink{0%,90%,100%{transform:scaleY(1)}93%{transform:scaleY(.12)}96%{transform:scaleY(1)}}
+  .cat-bubble{display:inline-block;margin:0 auto 12px;max-width:280px;background:#fff;color:#003763;font-weight:700;font-size:.82rem;padding:8px 14px;border-radius:13px;box-shadow:0 8px 22px rgba(0,20,45,.45);opacity:0;transform:translateY(4px);transition:.25s}
+  .cat-bubble.show{opacity:1;transform:none}
+  .app-icon.cat-ic{display:grid;place-items:center;padding:7px}
+  .app-icon.cat-ic svg{width:100%;height:100%}
+  .perf-hud{border:1px solid var(--line);border-radius:13px;background:rgba(2,14,28,.72);padding:15px 17px;font-variant-numeric:tabular-nums}
+  .perf-hud .hrow{display:flex;gap:18px;flex-wrap:wrap}
+  .perf-hud .stat{display:flex;flex-direction:column}
+  .perf-hud .stat .v{font-family:'Space Grotesk',sans-serif;font-weight:700;color:#fff;font-size:1.15rem}
+  .perf-hud .stat .v.ok{color:#3ee07a}.perf-hud .stat .v.warn{color:#ffce4a}
+  .perf-hud .stat .k{color:var(--muted);font-size:.64rem;letter-spacing:.1em;text-transform:uppercase;margin-top:2px}
+  .perf-hud .budget{margin-top:11px;font-size:.76rem;color:var(--muted)}
+  .perf-hud .bar{height:7px;border-radius:6px;background:rgba(255,255,255,.08);overflow:hidden;margin-top:6px}
+  .perf-hud .bar i{display:block;height:100%;background:linear-gradient(90deg,#3ee07a,#ffce4a);width:62%;transition:width .5s}
+  .perf-cap{font-family:var(--mono);font-size:.7rem;color:var(--muted);margin-top:9px}
+  .catgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(232px,1fr));gap:14px}
+  .catcard{border:1px solid var(--line);border-radius:14px;background:var(--panel);padding:18px;transition:.2s}
+  .catcard:hover{transform:translateY(-3px);border-color:rgba(55,182,255,.4);background:rgba(55,182,255,.06)}
+  .catcard .ci{font-size:1.4rem;display:block;margin-bottom:9px;line-height:1}
+  .catcard h5{font-family:'Space Grotesk',sans-serif;color:var(--txt);font-size:1rem;margin:0 0 5px;font-weight:600}
+  .catcard p{color:var(--muted);font-size:.87rem;margin:0}
+  .catcard .hl{display:inline-block;margin-top:9px;font-family:var(--mono);font-size:.62rem;letter-spacing:.05em;text-transform:uppercase;color:#ffce4a;border:1px solid rgba(255,206,74,.35);padding:2px 8px;border-radius:999px}
 
   /* footer */
   footer{border-top:1px solid var(--line);padding:60px 0 70px;text-align:center}
@@ -247,19 +272,17 @@
         <div class="show-tag">Review on autopilot, with a good dog.</div>
       </div>
     </div>
-    <div class="show-body">
-      <div>
-        <div class="frame">
-          <div class="frame-bar"><span></span><span></span><span></span><div class="frame-url">fetch, live demo</div></div>
-          <div class="frame-poster" id="fetchPoster">
-            <img src="assets/fetch-icon.png" alt="Fetch app icon" />
-            <div class="poster-txt">A live, clickable build of Fetch, running on mock data.</div>
-            <button class="btn primary launch-btn" id="fetchLaunch">&#9654;&nbsp; Launch the demo</button>
-          </div>
+    <div class="show-stack">
+      <div class="frame">
+        <div class="frame-bar"><span></span><span></span><span></span><div class="frame-url">fetch, live demo</div></div>
+        <div class="frame-poster" id="fetchPoster">
+          <img src="assets/fetch-icon.png" alt="Fetch app icon" />
+          <div class="poster-txt">A live, clickable build of Fetch, running on mock data.</div>
+          <button class="btn primary launch-btn" id="fetchLaunch">&#9654;&nbsp; Launch the demo</button>
         </div>
-        <div class="frame-cap">Loads the real app right here in your browser. Click around, and pet the dog.</div>
       </div>
-      <div class="show-copy">
+      <div class="frame-cap">Loads the real app at full size, right here in your browser. Click around, and pet the dog.</div>
+      <div class="show-copy-full">
         <p>A teammate&rsquo;s VR-module review used to eat an afternoon: pull the recordings off the headset, transcribe spoken notes by hand, cut a checklist, upload the video, post it to the team channel. Fetch does the whole loop.</p>
         <ul class="feats">
           <li><b>Pull</b> recordings off the headset over USB</li>
@@ -275,31 +298,44 @@
   <!-- Desktop Cat -->
   <div class="showcase reveal">
     <div class="show-head">
-      <img class="app-icon cat-ic" src="assets/cat.png" alt="Desktop Cat character" />
+      <span class="app-icon cat-ic" id="catHeadSlot"></span>
       <div>
         <h3>Desktop Cat</h3>
-        <div class="show-tag">A dev command center that happens to be a cat.</div>
+        <div class="show-tag">It looks like a toy. It is a workbench.</div>
       </div>
     </div>
-    <div class="show-body">
-      <div>
-        <div class="cat-stage">
-          <img class="cat-scene" src="assets/cat-scene.png" alt="" />
-          <div class="cat-bubble" id="catBubble">Hop to any scene without digging through folders.</div>
-          <img class="cat-sprite" src="assets/cat.png" alt="Desktop Cat" id="catSprite" />
+    <div class="show-stack">
+      <div class="cat-hero">
+        <div class="catstageL">
+          <div class="cat-bubble" id="catBubble">You are keeping the fleet running.</div>
+          <div id="catHeroSlot"></div>
         </div>
-        <div class="frame-cap">Pick a power below, the cat shows you. (Yes, you can click the cat.)</div>
+        <div>
+          <div class="perf-hud">
+            <div class="hrow">
+              <div class="stat"><span class="v ok" id="hFps">72</span><span class="k">FPS</span></div>
+              <div class="stat"><span class="v ok" id="hMs">12.8</span><span class="k">ms / frame</span></div>
+              <div class="stat"><span class="v" id="hDraw">214</span><span class="k">draw calls</span></div>
+              <div class="stat"><span class="v" id="hTris">486k</span><span class="k">tris</span></div>
+              <div class="stat"><span class="v" id="hMem">812</span><span class="k">MB</span></div>
+            </div>
+            <div class="budget">Quest 72 Hz / 13.9 ms budget <span id="hVerdict" style="color:#3ee07a;font-weight:700">within budget</span></div>
+            <div class="bar"><i id="hBar"></i></div>
+          </div>
+          <div class="perf-cap">A live mock of the in-Play VR perf HUD the cat surfaces. The real one reads actual profiler counters.</div>
+        </div>
       </div>
-      <div class="show-copy">
-        <p>It started as a bit of morale and quietly became the thing the team reaches for every day: a friendly cat that lives on the desktop and turns the most common Unity chores into one click.</p>
-        <div class="catfeats" id="catFeats">
-          <button class="catchip active" data-msg="Hop to any scene without digging through folders.">Scene-hop</button>
-          <button class="catchip" data-msg="The whole git workflow (status, branch, commit, push) from one menu.">Git menu</button>
-          <button class="catchip" data-msg="Click a console error and land on the exact line that threw it.">Jump to error</button>
-          <button class="catchip" data-msg="An auto-profiler that catches frame hitches and surfaces the resolved stack trace.">Auto-profiler</button>
-        </div>
-        <p class="catdesc" id="catDesc">Hop to any scene without digging through folders.</p>
-        <p class="why"><strong>Why I built it:</strong> a hundred tiny frictions a day add up. Removing them once, for everyone, beats removing them for myself. (C# editor tooling + an Electron companion.)</p>
+      <div class="show-copy-full">
+        <p><b>It looks like a toy. It is a workbench.</b> A little PartsSource cat floats over your desktop while you build VR training, and under the cute exterior it is a two-way bridge into the Unity Editor that takes hours of friction out of every build. The morale layer (affirmations, ten unlockable costumes, spells, guided relax modes) is the reward. The command center is the point.</p>
+        <p class="why"><strong>Why I built it:</strong> a hundred tiny frictions a day add up, so I removed them once, for the whole team. An Electron companion talking to Unity through tiny JSON signals, driven by <code>PSCatLink.cs</code> and <code>PSCatPerf.cs</code>. Click the cat, it has things to say.</p>
+      </div>
+      <div class="catgrid">
+        <div class="catcard"><span class="ci">🩺</span><h5>Live VR perf HUD</h5><p>In Play, a frame-budget HUD tracks fps, ms, draws, tris and memory against the Quest 72 Hz target.</p><span class="hl">headline</span></div>
+        <div class="catcard"><span class="ci">🔬</span><h5>Auto-profiler, resolved stacks</h5><p>Records every hitch over 50 ms cheaply, then on play-exit reconstructs the dominant method and call stack into a log.</p><span class="hl">headline</span></div>
+        <div class="catcard"><span class="ci">🎯</span><h5>Jump to last error</h5><p>One click opens the exact file and line of the most recent compile error in your editor.</p></div>
+        <div class="catcard"><span class="ci">🌿</span><h5>Full git client</h5><p>Branch and dirty count, clean-gated switch, commit, pull and push, stash, merge main, even copy-conflicts-for-Claude.</p></div>
+        <div class="catcard"><span class="ci">🚪</span><h5>Scene-hop and twin jump</h5><p>Open any module's Desktop, XR or Multiplayer scene directly, or hop between a scene's twins. No path digging.</p></div>
+        <div class="catcard"><span class="ci">✅</span><h5>Health and readiness</h5><p>Scene health, module readiness across all three scenes, and a project checkup for broken refs and oversized VR textures.</p></div>
       </div>
     </div>
   </div>
@@ -368,18 +404,23 @@
   }),{threshold:.5});
   document.querySelectorAll('.stat .n').forEach(el=>countio.observe(el));
 
-  // desktop cat showcase
+  // desktop cat: inject the real navy cat, wire clicks + animate the perf HUD
   (function(){
-    const bubble=document.getElementById('catBubble'), desc=document.getElementById('catDesc'), sprite=document.getElementById('catSprite');
-    document.querySelectorAll('#catFeats .catchip').forEach(chip=>{
-      chip.addEventListener('click',()=>{
-        document.querySelectorAll('#catFeats .catchip').forEach(c=>c.classList.remove('active'));
-        chip.classList.add('active');
-        const m=chip.dataset.msg; if(desc)desc.textContent=m; if(bubble)bubble.textContent=m;
-        if(sprite){sprite.style.animation='none'; void sprite.offsetWidth; sprite.style.animation='bob 3.2s ease-in-out infinite';}
-      });
-    });
-    if(sprite&&bubble){const pats=['Meow.','Nice click.','PartsSource cat, reporting in.','Want me to hop scenes?','I caught a frame hitch earlier. Fixed.'];let i=0;sprite.addEventListener('click',()=>{i=(i+1)%pats.length;bubble.textContent=pats[i];});}
+    const catMarkup='<g transform="translate(0,7)"><ellipse cx="52" cy="108" rx="46" ry="17" fill="#fff" stroke="#c9d6e2" stroke-width="1.5"/><circle cx="20" cy="98" r="11" fill="#fff" stroke="#c9d6e2" stroke-width="1.5"/><circle cx="44" cy="92" r="14" fill="#fff" stroke="#c9d6e2" stroke-width="1.5"/><circle cx="68" cy="94" r="12" fill="#fff" stroke="#c9d6e2" stroke-width="1.5"/><circle cx="86" cy="102" r="9" fill="#fff" stroke="#c9d6e2" stroke-width="1.5"/><ellipse cx="52" cy="106" rx="42" ry="14" fill="#fff"/><circle cx="20" cy="98" r="9.5" fill="#fff"/><circle cx="44" cy="92" r="12.5" fill="#fff"/><circle cx="68" cy="94" r="10.5" fill="#fff"/><circle cx="86" cy="102" r="7.5" fill="#fff"/></g><path d="M28 86 Q7 84 9 64 Q11 52 23 54" fill="none" stroke="#003763" stroke-width="7" stroke-linecap="round"/><g transform="translate(9,4)"><ellipse cx="46" cy="62" rx="30" ry="26" fill="#003763"/><ellipse cx="46" cy="70" rx="19" ry="15" fill="#f8f9fa"/><path d="M28 22 L33 8 L42 18 Z" fill="#003763"/><path d="M64 22 L59 8 L50 18 Z" fill="#003763"/><path d="M30 24 L34 12 L41 20 Z" fill="#f4b8c4"/><path d="M62 24 L58 12 L51 20 Z" fill="#f4b8c4"/><circle cx="46" cy="30" r="19" fill="#003763"/><g class="cat-eyes"><circle cx="39" cy="27" r="3" fill="#fff"/><circle cx="53" cy="27" r="3" fill="#fff"/><circle cx="39.8" cy="27.6" r="1.5" fill="#003763"/><circle cx="53.8" cy="27.6" r="1.5" fill="#003763"/></g><path d="M44 34 L48 34 L46 37 Z" fill="#f4b8c4"/><path d="M46 37 Q42 41 38 38 M46 37 Q50 41 54 38" fill="none" stroke="#f8f9fa" stroke-width="1.6" stroke-linecap="round"/><path d="M30 32 L18 30 M30 35 L19 36 M62 32 L74 30 M62 35 L73 36" stroke="#a0a5ac" stroke-width="1.2" stroke-linecap="round"/><path d="M31 45 Q46 53 61 45 L61 49 Q46 57 31 49 Z" fill="#c43c3c"/><circle cx="46" cy="52" r="4" fill="#f4c542" stroke="#b8860b" stroke-width="0.8"/><circle cx="46" cy="51" r="1" fill="#7a5c00"/><path d="M46 52 L46 55" stroke="#7a5c00" stroke-width="0.8"/><ellipse cx="36" cy="84" rx="7" ry="5" fill="#003763"/><ellipse cx="56" cy="84" rx="7" ry="5" fill="#003763"/><path d="M33 84 v3 M36 84 v3 M39 84 v3 M53 84 v3 M56 84 v3 M59 84 v3" stroke="#f8f9fa" stroke-width="1" stroke-linecap="round"/></g>';
+    const hero=document.getElementById('catHeroSlot'), head=document.getElementById('catHeadSlot');
+    if(hero)hero.innerHTML='<svg class="navycat" id="catHero" viewBox="-2 0 108 130" aria-label="PartsSource desktop cat">'+catMarkup+'</svg>';
+    if(head)head.innerHTML='<svg class="cat-svg" viewBox="-2 0 108 130" aria-hidden="true">'+catMarkup+'</svg>';
+    const bubble=document.getElementById('catBubble'), cat=document.getElementById('catHero');
+    const pats=['You are keeping the fleet running.','Clean code, calm mind.','Meow. Best build yet.','Want me to hop scenes?','I caught a frame hitch earlier. Fixed it.','Ship it with pride.','PartsSource is lucky to have you.'];
+    let bi=0,bt; function say(t){ if(!bubble)return; bubble.textContent=t; bubble.classList.add('show'); clearTimeout(bt); bt=setTimeout(()=>bubble.classList.remove('show'),2800); }
+    if(cat){ cat.addEventListener('click',()=>{ bi=(bi+1)%pats.length; say(pats[bi]); cat.style.animation='none'; void cat.offsetWidth; cat.style.animation='bob 4.4s ease-in-out infinite'; }); }
+    if(cat&&bubble){ const cio=new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting){ say('Click me. I have things to say.'); cio.disconnect(); } }),{threshold:.5}); cio.observe(cat); }
+    // perf HUD
+    const f=document.getElementById('hFps'),m=document.getElementById('hMs'),d=document.getElementById('hDraw'),tr=document.getElementById('hTris'),me=document.getElementById('hMem'),bar=document.getElementById('hBar'),v=document.getElementById('hVerdict');
+    if(f)setInterval(()=>{ const ms=11.5+Math.random()*4.6, fps=Math.round(1000/ms), over=ms>13.9;
+      f.textContent=fps; m.textContent=ms.toFixed(1); d.textContent=200+Math.floor(Math.random()*60); tr.textContent=(470+Math.floor(Math.random()*40))+'k'; me.textContent=790+Math.floor(Math.random()*60);
+      f.className='v '+(over?'warn':'ok'); m.className='v '+(over?'warn':'ok'); bar.style.width=Math.min(100,(ms/13.9*72))+'%';
+      v.textContent=over?'over budget':'within budget'; v.style.color=over?'#ffce4a':'#3ee07a'; },1100);
   })();
 
   // fetch: launch live demo on click (keeps the page light by default)
