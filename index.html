@@ -856,8 +856,8 @@
     const screen=document.getElementById('ocScreen'); if(!screen) return;
     const net=document.getElementById('ocNet'), cloud=document.getElementById('ttCloud'), cloudStatus=document.getElementById('ttCloudStatus'), home=document.getElementById('ttHome');
     const SCEN=[
-      {brain:'local', prompt:'fix the failing MX800 build', sys:'cloud AI rate-limited, falling back to local Qwen3-Coder 30B', out:['reading scene refs...','stale GUID in MX800-VR.unity','remapping references...','build is green ✓']},
-      {brain:'local', prompt:'why is the Zoll scene black on Quest?', sys:'offline, running on local Qwen3-Coder 30B', out:['Vulkan on that headset blanks the screen','switch Android graphics API to GLES3','applied to Player Settings ✓']},
+      {brain:'local', prompt:'fix the failing module build', sys:'cloud AI rate-limited, falling back to local Qwen3-Coder 30B', out:['reading scene refs...','stale GUID in a VR scene','remapping references...','build is green ✓']},
+      {brain:'local', prompt:'why is the scene black on Quest?', sys:'offline, running on local Qwen3-Coder 30B', out:['Vulkan on that headset blanks the screen','switch Android graphics API to GLES3','applied to Player Settings ✓']},
       {brain:'cloud', prompt:'scaffold the next PM module', sys:'online, cloud model', out:['VR + Desktop scenes from template','OrderedInteractionManager wired in','folders and addressables ready','set for tomorrow ✓']}
     ];
     const sleep=ms=>new Promise(r=>setTimeout(r,ms));
