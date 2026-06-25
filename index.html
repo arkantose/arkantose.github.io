@@ -291,6 +291,7 @@
   .forge-ic svg{width:56%;height:56%}
   .flowline{font-family:var(--mono);font-size:.8rem;color:var(--c1);margin-top:12px;letter-spacing:.01em}
   .apigrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(252px,1fr));gap:14px}
+  .infra-img{width:100%;height:auto;display:block;border:1px solid var(--line);border-radius:16px;margin:24px 0 28px;box-shadow:0 24px 60px -26px rgba(0,0,0,.85)}
   .apicard{border:1px solid var(--line);border-radius:14px;background:var(--panel);padding:18px;transition:.2s}
   .apicard:hover{transform:translateY(-3px);border-color:rgba(168,85,247,.45);background:rgba(168,85,247,.06)}
   .apicard .ah{display:flex;align-items:center;gap:9px;margin-bottom:8px;flex-wrap:wrap}
@@ -320,6 +321,7 @@
     <a href="#about">about</a>
     <a href="#work">work</a>
     <a href="#team">team</a>
+    <a href="#infra">setup</a>
     <a href="#skills">skills</a>
     <a href="#writing">writing</a>
     <a href="#contact">contact</a>
@@ -560,8 +562,22 @@
   </div>
 </section>
 
+<section id="infra" class="wrap">
+  <div class="kicker reveal">04 &middot; Off the clock</div>
+  <h2 class="reveal">A cloud-proof AI coding setup I run from my phone</h2>
+  <p class="lead reveal">When a cloud AI provider has a bad afternoon, most devs stop. I point my editor at a machine in my apartment and keep going, even from my phone.</p>
+  <img class="infra-img reveal" src="assets/llm-architecture.png?v=1" alt="Architecture: Mac and Windows running Ollama, reached over a Tailscale mesh and an SSH tunnel, driven from a phone through OpenCode's web GUI, as a failover for when cloud AI is down" />
+  <div class="apigrid">
+    <div class="apicard reveal"><div class="ah"><h5>Self-hosted models</h5></div><p>Ollama on both my Mac and my Windows machine, so there is always a local brain awake to fall back to.</p></div>
+    <div class="apicard reveal"><div class="ah"><h5>Reachable from anywhere</h5></div><p>A Tailscale mesh plus an SSH tunnel put my phone and my machines on one private network. No public ports, no DNS gymnastics.</p></div>
+    <div class="apicard reveal"><div class="ah"><h5>A real agent, not a chat box</h5></div><p>OpenCode drives the local models through its web GUI, the same editor I use at my desk, just rendered on my phone.</p></div>
+    <div class="apicard reveal"><div class="ah"><h5>Fails safe</h5></div><p>Cloud first, the home stack as the safety net. An outage, a rate limit, or one bar of signal, and I keep shipping.</p></div>
+  </div>
+  <p class="reveal" style="color:var(--muted);margin-top:22px">I wrote up the full build, from Ollama to the phone tunnel, <a href="https://medium.com/@arkantose.dc" target="_blank" rel="noopener">on Medium</a>.</p>
+</section>
+
 <section id="skills" class="wrap">
-  <div class="kicker reveal">04 &middot; Toolbox</div>
+  <div class="kicker reveal">05 &middot; Toolbox</div>
   <h2 class="reveal">What I work in</h2>
   <p class="lead reveal">Generalist by necessity and by choice, engine, networking, backend, build, and 3D.</p>
   <div class="skillcols">
@@ -584,7 +600,7 @@
 </section>
 
 <section id="writing" class="wrap">
-  <div class="kicker reveal">05 &middot; Writing</div>
+  <div class="kicker reveal">06 &middot; Writing</div>
   <h2 class="reveal">70+ articles on Unity &amp; C#</h2>
   <p class="lead reveal">I write about the things that bite me so they do not bite you. Find the full catalog on <a style="color:var(--c1)" href="https://medium.com/@arkantose.dc" target="_blank" rel="noopener">Medium</a>.</p>
   <div class="write-grid">
@@ -595,7 +611,7 @@
 </section>
 
 <footer id="contact" class="wrap">
-  <div class="kicker reveal">06 &middot; Contact</div>
+  <div class="kicker reveal">07 &middot; Contact</div>
   <h2 class="reveal">Let&rsquo;s build something immersive.</h2>
   <p class="lead reveal" style="margin:8px auto 0">Open to interesting problems in XR, Unity, and the tooling around them.</p>
   <div class="flinks reveal">
