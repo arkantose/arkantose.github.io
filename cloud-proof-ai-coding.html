@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>When the cloud AI goes down, I just keep coding (from my phone)</title>
+<meta name="description" content="How I built a cloud-proof coding setup with Ollama, Tailscale, and OpenCode, and why a self-hosted second brain is worth the afternoon it takes to wire up.">
+<meta name="author" content="Dylan Crow">
+<style>
+  body{max-width:720px;margin:0 auto;padding:48px 22px 80px;font-family:Georgia,'Times New Roman',serif;font-size:20px;line-height:1.7;color:#1a1a1a;background:#fff}
+  h1{font-family:-apple-system,Helvetica,Arial,sans-serif;font-size:40px;line-height:1.2;letter-spacing:-.02em;margin:0 0 12px}
+  h2{font-family:-apple-system,Helvetica,Arial,sans-serif;font-size:28px;line-height:1.25;letter-spacing:-.01em;margin:42px 0 10px}
+  .sub{font-size:21px;color:#6b6b6b;font-style:italic;margin:0 0 30px}
+  p{margin:0 0 22px}
+  img{max-width:100%;height:auto;display:block;margin:30px auto;border-radius:8px}
+  blockquote{margin:26px 0;padding-left:20px;border-left:3px solid #1a1a1a;font-style:italic;color:#444}
+  ul,ol{margin:0 0 22px;padding-left:26px}
+  li{margin:0 0 10px}
+  a{color:#1a73e8}
+  hr{border:0;border-top:1px solid #e5e5e5;margin:40px 0}
+  .byline{font-family:-apple-system,Helvetica,Arial,sans-serif;font-size:15px;color:#6b6b6b;margin:0 0 34px}
+</style>
+</head>
+<body>
+<article>
+<h1>When the cloud AI goes down, I just keep coding (from my phone)</h1>
+<p class="sub">How I built a cloud-proof coding setup with Ollama, Tailscale, and OpenCode, and why a self-hosted second brain is worth the afternoon it takes to wire up.</p>
+<p class="byline">Dylan Crow</p>
+
+<img src="https://arkantose.github.io/assets/llm-architecture.png" alt="A cloud-proof AI coding setup: Mac and Windows running Ollama, reached over a Tailscale mesh and an SSH tunnel, driven from a phone through OpenCode's web GUI, as a failover for when cloud AI is down." />
+
+<p>A few months ago a cloud AI provider had a rough afternoon. Elevated error rates, then a hard outage. My whole feed lit up with developers suddenly remembering how to write code by hand, half joking, half panicking.</p>
+
+<p>I wasn&rsquo;t one of them. I just pointed my editor at the machine sitting in my apartment and kept going.</p>
+
+<p>That moment is the whole reason this setup exists. If an AI pair-programmer is going to sit in the middle of your workflow, it should not be a single point of failure. So I gave mine a backup that I own, and somewhere along the way it turned into something I can run from my phone.</p>
+
+<p>Here is the whole thing.</p>
+
+<h2>The problem with a cloud-only brain</h2>
+<p>Cloud models are fantastic. They are also, from where I sit, three different kinds of fragile:</p>
+<ul>
+<li><strong>They go down.</strong> Not often, but exactly when you are in flow and least want to stop.</li>
+<li><strong>They rate-limit.</strong> Long sessions, big refactors, a busy day, and suddenly you are waiting.</li>
+<li><strong>They need a live connection.</strong> Bad hotel wifi, a plane, a dead zone, and your smartest tool is gone.</li>
+</ul>
+<p>None of those are dealbreakers on their own. Together they mean my most-used tool has a dependency I do not control. I wanted a version that fails safe instead.</p>
+
+<h2>The build</h2>
+<p>The whole thing is three pieces, and none of them are exotic.</p>
+<p><strong>1. Local models on Ollama.</strong> I run Ollama on both my machines, a MacBook and a Windows desktop. Ollama is the boring-in-a-good-way part: it pulls an open model down, serves it on a local OpenAI-compatible port, and gets out of the way.</p>
+<p>My daily driver is <strong>Qwen3-Coder 30B</strong>. It is the one local model I actually trust to drive an agent, because it tool-calls reliably, which most local models still fumble. Around it I keep a small bench: <strong>Qwen2.5-Coder 14B</strong> for quick code and chat, <strong>Gemma 3 12B</strong> when I need vision, and <strong>Hermes 3 8B</strong> as a fast, low-VRAM agent for the little stuff. Different jobs, different weights, all local.</p>
+<blockquote>The specific names matter less than the idea: the model is a detail you can swap, not a service you depend on.</blockquote>
+<p><strong>2. OpenCode as the agent.</strong> A raw model endpoint is not a coding environment. OpenCode is the part that turns it into one, an open-source coding agent that reads your repo, runs commands, makes edits, and talks to whatever model you point it at, including a local Ollama one.</p>
+<p>The detail that makes it real for me is MCP. My OpenCode setup is wired with the same tools my cloud workflow uses, so the local agent can actually drive the Unity editor, run Blender, and pilot a headless browser, not just talk about them. That is the whole difference. Falling back to local does not mean falling back to a dumber chat window. It is the same agent with the same tools, just a different brain behind it. And OpenCode ships a web GUI, which matters a lot for the next part.</p>
+<p><strong>3. Tailscale plus SSH to reach it from anywhere.</strong> This is the piece that makes it feel like magic instead of a homelab science project. Tailscale puts my phone and both machines on the same private mesh network, no ports opened to the public internet, no dynamic-DNS gymnastics. From there a simple SSH tunnel forwards OpenCode&rsquo;s web GUI to my phone. I open a browser, and I am in my own editor, talking to my own model, running on a machine at home.</p>
+<p>That is the entire stack. Two machines running Ollama, OpenCode sitting on top, and a private tunnel so I can reach the web GUI from my pocket.</p>
+
+<h2>How a session actually goes</h2>
+<p>Day to day, I still lead with the cloud model. It is the sharpest tool in the drawer and I am not pretending otherwise. The local stack is the safety net, not the headliner.</p>
+<p>What changed is what happens when the net is needed:</p>
+<ul>
+<li>Cloud provider having a bad day? I point the same workflow at the home stack and keep moving.</li>
+<li>Hit a rate limit mid-refactor? Local model picks up the boring parts.</li>
+<li>Stuck somewhere with one bar of signal? Tailscale only needs a trickle, and the heavy lifting happens on a machine that has a wall outlet and a real connection.</li>
+</ul>
+<p>The mental model is simple: <strong>cloud first, home stack as the failover.</strong> I almost never have to use it. I am just never stuck because I can.</p>
+
+<h2>The part I did not expect: coding from my phone</h2>
+<p>I built this for resilience. The phone thing was a side effect, and it is the part people actually react to.</p>
+<p>Because OpenCode has a web GUI and Tailscale makes my machines reachable, opening my coding agent stopped being a thing tied to my desk. Standing in line, on the couch, away for the weekend, I can open a browser tab, describe what I want, and watch a real agent make the change on a real machine with my real repo. It is not a toy chat window. It is the same environment I use at my desk, just rendered on a smaller screen.</p>
+<p>I am not writing thousand-line features with my thumbs. But fix this build, explain why this scene is broken, draft the next module&rsquo;s scaffolding so it is ready when I sit down, that all works, and it is genuinely useful.</p>
+
+<h2>What it actually buys you</h2>
+<p>If you are thinking about building something similar, here is the honest ledger.</p>
+<p><strong>You get:</strong></p>
+<ul>
+<li><strong>Resilience.</strong> Your workflow survives an outage, a rate limit, or a bad connection.</li>
+<li><strong>Privacy.</strong> The failover path never leaves your network. Some work should not go to a third party, and now it does not have to.</li>
+<li><strong>Cost control.</strong> The local path has no per-token meter. For the grindy, high-volume stuff, that adds up.</li>
+<li><strong>A real understanding of the stack.</strong> Wiring this yourself teaches you more about how these tools actually work than any number of API calls.</li>
+</ul>
+<p><strong>You do not get:</strong></p>
+<ul>
+<li><strong>A frontier-model replacement.</strong> Be honest with yourself. A model you can run at home is not going to match a top cloud model on the hardest problems. That is fine. It is a safety net, not a throne.</li>
+<li><strong>Zero maintenance.</strong> It is your infrastructure now. Mostly it just runs, but mostly is doing a little work in that sentence.</li>
+</ul>
+
+<h2>The takeaway</h2>
+<p>The lesson here is bigger than one stack. As AI moves from a thing I sometimes ask to a thing my workflow runs on, the old infrastructure questions come back with it. What happens when it is down? What happens when you are offline? What are you comfortable sending to someone else&rsquo;s server?</p>
+<p>You do not have to answer those by going fully local. I did not. I just made sure that when the cloud has a bad afternoon, I am not having one too.</p>
+<p>An afternoon of wiring, and now my smartest tool fails safe and fits in my pocket. Hard to think of a better trade.</p>
+
+<hr>
+<p><em>I build immersive training software and the tooling that ships it. More of my work, including a couple of apps you can actually click and run, lives at <a href="https://arkantose.github.io">arkantose.github.io</a>.</em></p>
+</article>
+</body>
+</html>
