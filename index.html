@@ -566,11 +566,11 @@
   <div class="kicker reveal">04 &middot; Off the clock</div>
   <h2 class="reveal">A cloud-proof AI coding setup I run from my phone</h2>
   <p class="lead reveal">When a cloud AI provider has a bad afternoon, most devs stop. I point my editor at a machine in my apartment and keep going, even from my phone.</p>
-  <img class="infra-img reveal" src="assets/llm-architecture.png?v=1" alt="Architecture: Mac and Windows running Ollama, reached over a Tailscale mesh and an SSH tunnel, driven from a phone through OpenCode's web GUI, as a failover for when cloud AI is down" />
+  <img class="infra-img reveal" src="assets/llm-architecture.png?v=2" alt="Architecture: Mac and Windows running Ollama, reached over a Tailscale mesh and an SSH tunnel, driven from a phone through OpenCode's web GUI, as a failover for when cloud AI is down" />
   <div class="apigrid">
-    <div class="apicard reveal"><div class="ah"><h5>Self-hosted models</h5></div><p>Ollama on both my Mac and my Windows machine, so there is always a local brain awake to fall back to.</p></div>
+    <div class="apicard reveal"><div class="ah"><h5>Self-hosted models</h5></div><p>Ollama on both my Mac and Windows machines, running Qwen3-Coder 30B and a small bench of coding models, so there is always a local brain to fall back to.</p></div>
     <div class="apicard reveal"><div class="ah"><h5>Reachable from anywhere</h5></div><p>A Tailscale mesh plus an SSH tunnel put my phone and my machines on one private network. No public ports, no DNS gymnastics.</p></div>
-    <div class="apicard reveal"><div class="ah"><h5>A real agent, not a chat box</h5></div><p>OpenCode drives the local models through its web GUI, the same editor I use at my desk, just rendered on my phone.</p></div>
+    <div class="apicard reveal"><div class="ah"><h5>A real agent, not a chat box</h5></div><p>OpenCode drives the local models with the same MCP tools my cloud setup has (Unity, Blender, a browser), the same editor I use at my desk, on my phone.</p></div>
     <div class="apicard reveal"><div class="ah"><h5>Fails safe</h5></div><p>Cloud first, the home stack as the safety net. An outage, a rate limit, or one bar of signal, and I keep shipping.</p></div>
   </div>
   <p class="reveal" style="color:var(--muted);margin-top:22px">I wrote up the full build, from Ollama to the phone tunnel, <a href="https://medium.com/@arkantose.dc" target="_blank" rel="noopener">on Medium</a>.</p>
