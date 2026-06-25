@@ -383,7 +383,7 @@
   <div class="stats">
     <div class="stat reveal"><div class="n" data-to="4">0</div><div class="l">Platforms shipped</div></div>
     <div class="stat reveal"><div class="n" data-to="20" data-suffix="+">0</div><div class="l">Training modules delivered</div></div>
-    <div class="stat reveal"><div class="n" data-to="3000" data-suffix="+">0</div><div class="l">Asset conflicts auto-resolved</div></div>
+    <div class="stat reveal"><div class="n" data-to="3869">0</div><div class="l">Object references auto-remapped</div></div>
     <div class="stat reveal"><div class="n" data-to="70" data-suffix="+">0</div><div class="l">Technical articles written</div></div>
   </div>
 </section>
@@ -406,7 +406,7 @@
 
     <div class="card reveal"><div class="num">// 02</div><h3>On-demand content delivery</h3><p>Architected remote module loading with Unity Addressables and Cloud Content Delivery, so the app installs small and pulls content only when it is opened. Separate CCD buckets and profiles per platform, with build-time checks to stop silent catalog mismatches.</p><div class="stack"><span class="chip">Addressables</span><span class="chip">CCD</span><span class="chip">DevOps</span></div></div>
 
-    <div class="card reveal"><div class="num">// 03</div><h3>Internal tooling, from scratch</h3><p>A GUID conflict detector and remapper that scans contributor branches before merge and auto-resolves thousands of asset collisions, weeks of broken-scene cleanup avoided. Plus a web-to-engine pipeline for authoring storyboards in the browser and syncing them straight into Unity.</p><div class="stack"><span class="chip">PowerShell</span><span class="chip">GitHub CLI</span><span class="chip">Editor Tools</span></div></div>
+    <div class="card reveal"><div class="num">// 03</div><h3>Internal tooling, from scratch</h3><p>A GUID conflict detector and remapper that scans contributor branches before merge and auto-remaps the duplicates, 3,869 object references the team never had to fix by hand, and weeks of broken-scene cleanup avoided. Plus a web-to-engine storyboard pipeline that has reclaimed roughly 450 hours of repetitive content prep across the catalog.</p><div class="stack"><span class="chip">PowerShell</span><span class="chip">GitHub CLI</span><span class="chip">Editor Tools</span></div></div>
 
     <div class="card reveal"><div class="num">// 04</div><h3>Real-time multiplayer</h3><p>Networked training sessions with Photon Fusion: state sync across VR and desktop clients, host migration, and networked interactions that keep hand-tracked and mouse-driven players in lockstep.</p><div class="stack"><span class="chip">Photon Fusion</span><span class="chip">Netcode</span><span class="chip">State Sync</span></div></div>
 
@@ -575,6 +575,7 @@
     <div class="show-stack">
       <div class="show-copy-full">
         <p>Biomedical authors used to draft VR-training storyboards in scattered docs. I built them one Atlassian Forge macro that turns a Confluence page into a full authoring studio: steps and sub-steps, AI voice narration with inline players, Unity interaction mapping, and a proofreading pass, all saved into the page itself and synced into the Unity editor. It is the most API-dense thing I have shipped, and most of those APIs are AI.</p>
+        <p class="why"><strong>The payoff:</strong> across 21 modules and ~1,296 authored sub-steps, the pipeline has clawed back roughly <b>450 hours</b> of repetitive, error-prone content prep, and it pays that back on every build and revision. It automates the grunt slice, about 6% of total build time, so the team spends those hours on the actual training instead of hand-wiring.</p>
         <p class="flowline">author in Confluence  &rarr;  generate AI narration + proof the copy  &rarr;  sync the storyboard into Unity</p>
       </div>
       <div class="frame">
