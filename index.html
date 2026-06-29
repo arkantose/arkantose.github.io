@@ -158,8 +158,11 @@
   .poster-ic{width:104px!important;height:104px!important;border-radius:24px;box-shadow:0 18px 44px -12px rgba(0,0,0,.85)}
   .poster-txt{color:var(--muted);font-size:.92rem;max-width:300px}
   .launch-btn{cursor:pointer;font-family:inherit}
-  .poster-mobile-note{display:none;font-family:var(--mono);font-size:.7rem;color:var(--muted);margin-top:2px}
-  @media(max-width:760px){.poster-mobile-note{display:block}.frame iframe{height:520px}}
+  .scaleframe{width:100%;overflow:hidden;position:relative;background:#0d0d16}
+  .scaleframe iframe{border:0;transform-origin:top left;display:block;background:#fff}
+  .scaleframe-foot{padding:9px 12px;background:rgba(255,255,255,.04);border-top:1px solid var(--line);text-align:center}
+  .scaleframe-foot a{font-family:var(--mono);font-size:.74rem;color:var(--c1)}
+  .scaleframe-foot a:hover{text-decoration:underline}
   .frame-cap{margin-top:10px;font-family:var(--mono);font-size:.72rem;color:var(--muted);text-align:center}
   /* stacked showcase */
   .show-stack{display:flex;flex-direction:column;gap:18px;padding:clamp(20px,4vw,30px)}
@@ -457,7 +460,6 @@
           <img src="assets/fetch-icon.png?v=2" alt="Fetch app icon" />
           <div class="poster-txt">A live, clickable build of Fetch, running on mock data.</div>
           <button class="btn primary launch-btn" id="fetchLaunch">&#9654;&nbsp; Launch the demo</button>
-          <div class="poster-mobile-note">Opens full-screen in a new tab on mobile</div>
         </div>
       </div>
       <div class="frame-cap">Loads the real app at full size, right here in your browser. Click around, and pet the dog.</div>
@@ -605,7 +607,6 @@
           <img src="assets/forge-icon.png?v=2" alt="NVRT Storyboard Editor icon" />
           <div class="poster-txt">The real Confluence macro, running on mock data. No login, no API keys.</div>
           <button class="btn primary launch-btn" id="forgeLaunch">&#9654;&nbsp; Launch the demo</button>
-          <div class="poster-mobile-note">Opens full-screen in a new tab on mobile</div>
         </div>
       </div>
       <div class="frame-cap">The same React app that runs inside Confluence, here with the four APIs stubbed. Try <b>Generate All Audio</b>, <b>Check Text</b>, or <b>Generate Interaction Names</b>.</div>
@@ -851,24 +852,42 @@
       v.textContent=over?'over budget':'within budget'; v.style.color=over?'#ffce4a':'#3ee07a'; },1100);
   })();
 
-  // fetch + forge: launch the live demo. on phones the apps are desktop-scale,
-  // so open them full-screen in a new tab; on desktop, embed inline (keeps the
-  // page light until clicked).
+  // fetch + forge: launch the live demo as a scaled-to-fit desktop preview.
+  // the app renders at a fixed desktop width inside the iframe, then the whole
+  // frame is transform-scaled down to the container width, so every element
+  // shrinks proportionally instead of cramming a desktop layout into a narrow
+  // box. an "open full screen" link opens the real thing in a new tab.
   (function(){
-    const isPhone=()=>window.matchMedia('(max-width:760px)').matches;
-    function wire(btnId,posterId,url,title){
-      const fl=document.getElementById(btnId);
-      if(!fl)return;
-      fl.addEventListener('click',()=>{
-        if(isPhone()){ window.open(url,'_blank','noopener'); return; }
+    function launch(btnId,posterId,url,title,lw,lh){
+      const btn=document.getElementById(btnId);
+      if(!btn)return;
+      btn.addEventListener('click',()=>{
         const p=document.getElementById(posterId);
+        if(!p)return;
+        const host=document.createElement('div');
+        host.className='scaleframe';
         const f=document.createElement('iframe');
         f.src=url; f.title=title;
-        p.replaceWith(f);
+        f.style.width=lw+'px'; f.style.height=lh+'px';
+        host.appendChild(f);
+        const foot=document.createElement('div');
+        foot.className='scaleframe-foot';
+        foot.innerHTML='<a href="'+url+'" target="_blank" rel="noopener">Open full screen &#8599;</a>';
+        p.replaceWith(host);
+        host.after(foot);
+        function fit(){
+          const w=host.clientWidth; if(!w)return;
+          const s=w/lw;
+          f.style.transform='scale('+s+')';
+          host.style.height=(lh*s)+'px';
+        }
+        fit();
+        if(window.ResizeObserver) new ResizeObserver(fit).observe(host);
+        window.addEventListener('resize',fit);
       });
     }
-    wire('fetchLaunch','fetchPoster','apps/fetch/','Fetch live demo');
-    wire('forgeLaunch','forgePoster','apps/forge/','NVRT Storyboard Editor live demo');
+    launch('fetchLaunch','fetchPoster','apps/fetch/','Fetch live demo',1180,760);
+    launch('forgeLaunch','forgePoster','apps/forge/','NVRT Storyboard Editor live demo',1180,760);
   })();
 
   // mobile nav: hamburger toggles the section links, closes on selection
