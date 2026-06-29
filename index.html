@@ -161,8 +161,14 @@
   .scaleframe{width:100%;overflow:hidden;position:relative;background:#0d0d16}
   .scaleframe iframe{border:0;transform-origin:top left;display:block;background:#fff}
   .scaleframe-foot{padding:9px 12px;background:rgba(255,255,255,.04);border-top:1px solid var(--line);text-align:center}
-  .scaleframe-foot a{font-family:var(--mono);font-size:.74rem;color:var(--c1)}
+  .scaleframe-foot a{font-family:var(--mono);font-size:.74rem;color:var(--c1);cursor:pointer}
   .scaleframe-foot a:hover{text-decoration:underline}
+  /* full-screen scaled app overlay */
+  .appmodal{position:fixed;inset:0;z-index:200;background:rgba(4,4,9,.93);backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;padding:14px 12px}
+  .appmodal-inner{position:relative;width:100%;max-width:1180px;height:100%;overflow:hidden;border:1px solid var(--line);border-radius:12px;background:#fff}
+  .appmodal-inner iframe{border:0;transform-origin:top left;display:block;background:#fff}
+  .appmodal-close{position:fixed;top:12px;right:14px;z-index:210;width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:rgba(10,10,18,.85);color:#fff;font-size:25px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center}
+  .appmodal-close:hover{background:rgba(30,30,45,.95)}
   .frame-cap{margin-top:10px;font-family:var(--mono);font-size:.72rem;color:var(--muted);text-align:center}
   /* stacked showcase */
   .show-stack{display:flex;flex-direction:column;gap:18px;padding:clamp(20px,4vw,30px)}
@@ -853,12 +859,37 @@
   })();
 
   // fetch + forge: launch the live demo as a scaled-to-fit desktop preview.
-  // the app renders at a fixed desktop width inside the iframe, then the whole
+  // the app renders at a fixed desktop width (LW) inside the iframe, then the
   // frame is transform-scaled down to the container width, so every element
   // shrinks proportionally instead of cramming a desktop layout into a narrow
-  // box. an "open full screen" link opens the real thing in a new tab.
+  // box. "open full screen" does the same scale-to-fit in a full-viewport
+  // overlay (bigger, since the container is the whole screen).
   (function(){
-    function launch(btnId,posterId,url,title,lw,lh){
+    const LW=1180;
+    function openFull(url,title){
+      const ov=document.createElement('div'); ov.className='appmodal';
+      const inner=document.createElement('div'); inner.className='appmodal-inner';
+      const f=document.createElement('iframe'); f.src=url; f.title=title;
+      const close=document.createElement('button'); close.className='appmodal-close'; close.setAttribute('aria-label','Close'); close.innerHTML='&times;';
+      inner.appendChild(f); ov.appendChild(inner); ov.appendChild(close);
+      document.body.appendChild(ov); document.body.style.overflow='hidden';
+      function fit(){
+        const w=inner.clientWidth, h=inner.clientHeight; if(!w)return;
+        const s=Math.min(w/LW,1);              // never upscale past native
+        f.style.width=LW+'px';
+        f.style.height=Math.ceil(h/s)+'px';    // logical height that fills the overlay once scaled
+        f.style.transform='scale('+s+')';
+      }
+      fit();
+      let ro; if(window.ResizeObserver){ ro=new ResizeObserver(fit); ro.observe(inner); }
+      function onR(){fit();} window.addEventListener('resize',onR);
+      function onK(e){ if(e.key==='Escape')done(); }
+      function done(){ if(ro)ro.disconnect(); window.removeEventListener('resize',onR); document.removeEventListener('keydown',onK); ov.remove(); document.body.style.overflow=''; }
+      close.addEventListener('click',done);
+      ov.addEventListener('click',e=>{ if(e.target===ov)done(); });
+      document.addEventListener('keydown',onK);
+    }
+    function launch(btnId,posterId,url,title,lh){
       const btn=document.getElementById(btnId);
       if(!btn)return;
       btn.addEventListener('click',()=>{
@@ -868,16 +899,18 @@
         host.className='scaleframe';
         const f=document.createElement('iframe');
         f.src=url; f.title=title;
-        f.style.width=lw+'px'; f.style.height=lh+'px';
+        f.style.width=LW+'px'; f.style.height=lh+'px';
         host.appendChild(f);
         const foot=document.createElement('div');
         foot.className='scaleframe-foot';
-        foot.innerHTML='<a href="'+url+'" target="_blank" rel="noopener">Open full screen &#8599;</a>';
+        const a=document.createElement('a'); a.href='#'; a.innerHTML='Open full screen &#8599;';
+        a.addEventListener('click',e=>{ e.preventDefault(); openFull(url,title); });
+        foot.appendChild(a);
         p.replaceWith(host);
         host.after(foot);
         function fit(){
           const w=host.clientWidth; if(!w)return;
-          const s=w/lw;
+          const s=w/LW;
           f.style.transform='scale('+s+')';
           host.style.height=(lh*s)+'px';
         }
@@ -886,8 +919,8 @@
         window.addEventListener('resize',fit);
       });
     }
-    launch('fetchLaunch','fetchPoster','apps/fetch/','Fetch live demo',1180,760);
-    launch('forgeLaunch','forgePoster','apps/forge/','NVRT Storyboard Editor live demo',1180,760);
+    launch('fetchLaunch','fetchPoster','apps/fetch/','Fetch live demo',760);
+    launch('forgeLaunch','forgePoster','apps/forge/','NVRT Storyboard Editor live demo',760);
   })();
 
   // mobile nav: hamburger toggles the section links, closes on selection
