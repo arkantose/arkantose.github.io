@@ -280,3 +280,24 @@ input.check { width: 18px; height: 18px; accent-color: var(--primary); }
 .job.done .bar-fill { background: var(--good); }
 .bar-fill.running { background: linear-gradient(90deg, var(--primary), var(--warn), var(--primary)); background-size: 200% 100%; animation: barflow 1.2s linear infinite; }
 @keyframes barflow { 0% { background-position: 200% 0; } 100% { background-position: 0 0; } }
+
+/* ===== mobile / narrow viewport (phone, or small embed) ===== */
+@media (max-width: 680px) {
+  #app { flex-direction: column; height: 100vh; }
+  .rail {
+    width: auto; flex-direction: row; align-items: center; gap: 6px;
+    padding: 8px 10px; overflow-x: auto; overflow-y: hidden;
+    border-right: none; border-bottom: 1px solid var(--line);
+    -webkit-overflow-scrolling: touch;
+  }
+  .rail::-webkit-scrollbar { height: 0; }
+  .brand { padding: 0 6px 0 2px; flex-shrink: 0; }
+  .rail-btn, .help-btn, .sound-btn, .device-pill { flex-shrink: 0; white-space: nowrap; margin-bottom: 0; }
+  .rail-spacer { display: none; }
+  main { padding: 18px 16px 96px; }
+  .view { max-width: 100%; }
+  .view-head h1 { font-size: 1.5rem; }
+  .status-card { flex-wrap: wrap; gap: 12px; }
+  .row.gap { gap: 8px; }
+  .modal { padding: 22px 18px; }
+}

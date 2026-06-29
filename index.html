@@ -52,7 +52,19 @@
   .nav-links{display:flex;gap:28px;font-size:.9rem}
   .nav-links a{color:var(--muted);transition:.2s}
   .nav-links a:hover{color:var(--txt)}
-  @media(max-width:680px){.nav-links{display:none}}
+  .nav-toggle{display:none;flex-direction:column;justify-content:center;gap:5px;width:44px;height:44px;padding:11px;background:none;border:0;cursor:pointer}
+  .nav-toggle span{display:block;height:2px;width:100%;background:var(--txt);border-radius:2px;transition:.25s}
+  nav.nav-open .nav-toggle span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+  nav.nav-open .nav-toggle span:nth-child(2){opacity:0}
+  nav.nav-open .nav-toggle span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+  @media(max-width:680px){
+    .nav-toggle{display:flex}
+    .nav-links{display:none;flex-direction:column;gap:0;position:absolute;top:100%;left:0;right:0;
+      background:rgba(6,6,11,.97);backdrop-filter:blur(12px);border-bottom:1px solid var(--line);padding:6px 0}
+    nav.nav-open .nav-links{display:flex}
+    .nav-links a{padding:13px clamp(20px,5vw,64px);font-size:1.02rem;color:var(--txt)}
+    .nav-links a:active{background:var(--panel)}
+  }
 
   .wrap{max-width:1080px;margin:0 auto;padding:0 clamp(20px,5vw,32px)}
   section{padding:clamp(70px,11vw,140px) 0}
@@ -146,6 +158,8 @@
   .poster-ic{width:104px!important;height:104px!important;border-radius:24px;box-shadow:0 18px 44px -12px rgba(0,0,0,.85)}
   .poster-txt{color:var(--muted);font-size:.92rem;max-width:300px}
   .launch-btn{cursor:pointer;font-family:inherit}
+  .poster-mobile-note{display:none;font-family:var(--mono);font-size:.7rem;color:var(--muted);margin-top:2px}
+  @media(max-width:760px){.poster-mobile-note{display:block}.frame iframe{height:520px}}
   .frame-cap{margin-top:10px;font-family:var(--mono);font-size:.72rem;color:var(--muted);text-align:center}
   /* stacked showcase */
   .show-stack{display:flex;flex-direction:column;gap:18px;padding:clamp(20px,4vw,30px)}
@@ -369,6 +383,7 @@
     <a href="#writing">writing</a>
     <a href="#contact">contact</a>
   </div>
+  <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false"><span></span><span></span><span></span></button>
 </nav>
 
 <header class="hero wrap">
@@ -442,6 +457,7 @@
           <img src="assets/fetch-icon.png?v=2" alt="Fetch app icon" />
           <div class="poster-txt">A live, clickable build of Fetch, running on mock data.</div>
           <button class="btn primary launch-btn" id="fetchLaunch">&#9654;&nbsp; Launch the demo</button>
+          <div class="poster-mobile-note">Opens full-screen in a new tab on mobile</div>
         </div>
       </div>
       <div class="frame-cap">Loads the real app at full size, right here in your browser. Click around, and pet the dog.</div>
@@ -589,6 +605,7 @@
           <img src="assets/forge-icon.png?v=2" alt="NVRT Storyboard Editor icon" />
           <div class="poster-txt">The real Confluence macro, running on mock data. No login, no API keys.</div>
           <button class="btn primary launch-btn" id="forgeLaunch">&#9654;&nbsp; Launch the demo</button>
+          <div class="poster-mobile-note">Opens full-screen in a new tab on mobile</div>
         </div>
       </div>
       <div class="frame-cap">The same React app that runs inside Confluence, here with the four APIs stubbed. Try <b>Generate All Audio</b>, <b>Check Text</b>, or <b>Generate Interaction Names</b>.</div>
@@ -834,26 +851,37 @@
       v.textContent=over?'over budget':'within budget'; v.style.color=over?'#ffce4a':'#3ee07a'; },1100);
   })();
 
-  // fetch: launch live demo on click (keeps the page light by default)
+  // fetch + forge: launch the live demo. on phones the apps are desktop-scale,
+  // so open them full-screen in a new tab; on desktop, embed inline (keeps the
+  // page light until clicked).
   (function(){
-    const fl=document.getElementById('fetchLaunch');
-    if(!fl)return;
-    fl.addEventListener('click',()=>{
-      const p=document.getElementById('fetchPoster');
-      const f=document.createElement('iframe');
-      f.src='apps/fetch/'; f.title='Fetch live demo';
-      p.replaceWith(f);
-    });
+    const isPhone=()=>window.matchMedia('(max-width:760px)').matches;
+    function wire(btnId,posterId,url,title){
+      const fl=document.getElementById(btnId);
+      if(!fl)return;
+      fl.addEventListener('click',()=>{
+        if(isPhone()){ window.open(url,'_blank','noopener'); return; }
+        const p=document.getElementById(posterId);
+        const f=document.createElement('iframe');
+        f.src=url; f.title=title;
+        p.replaceWith(f);
+      });
+    }
+    wire('fetchLaunch','fetchPoster','apps/fetch/','Fetch live demo');
+    wire('forgeLaunch','forgePoster','apps/forge/','NVRT Storyboard Editor live demo');
   })();
+
+  // mobile nav: hamburger toggles the section links, closes on selection
   (function(){
-    const fl=document.getElementById('forgeLaunch');
-    if(!fl)return;
-    fl.addEventListener('click',()=>{
-      const p=document.getElementById('forgePoster');
-      const f=document.createElement('iframe');
-      f.src='apps/forge/'; f.title='NVRT Storyboard Editor live demo';
-      p.replaceWith(f);
+    const nav=document.getElementById('nav'), tog=document.getElementById('navToggle');
+    if(!nav||!tog)return;
+    const close=()=>{nav.classList.remove('nav-open');tog.setAttribute('aria-expanded','false');};
+    tog.addEventListener('click',()=>{
+      const open=nav.classList.toggle('nav-open');
+      tog.setAttribute('aria-expanded',open?'true':'false');
     });
+    nav.querySelectorAll('.nav-links a').forEach(a=>a.addEventListener('click',close));
+    document.addEventListener('click',e=>{if(nav.classList.contains('nav-open')&&!nav.contains(e.target))close();});
   })();
 
   // off the clock: live local-stack OpenCode terminal (fake prompts + streaming answers)
