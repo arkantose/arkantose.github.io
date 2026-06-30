@@ -153,6 +153,7 @@
   .frame-bar span:nth-child(1){background:#ff5f57}.frame-bar span:nth-child(2){background:#febc2e}.frame-bar span:nth-child(3){background:#28c840}
   .frame-url{margin-left:8px;font-family:var(--mono);font-size:.72rem;color:var(--muted)}
   .frame iframe{display:block;width:100%;height:620px;border:0;background:#fff}
+  .frame video{display:block;width:100%;height:auto;background:#06060b}
   .frame-poster{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:15px;height:540px;text-align:center;padding:24px;background:radial-gradient(circle at 50% 36%,rgba(34,211,238,.12),transparent 64%),#0d0d16}
   .frame-poster img{width:120px;height:120px;border-radius:27px;box-shadow:0 18px 44px -12px rgba(0,0,0,.85)}
   .poster-ic{width:104px!important;height:104px!important;border-radius:24px;box-shadow:0 18px 44px -12px rgba(0,0,0,.85)}
@@ -177,6 +178,24 @@
   .show-copy-full .why{margin-top:14px;color:#cbd5e1}
   .show-copy-full code{font-family:var(--mono);font-size:.85em;color:var(--c1)}
   .show-copy-full b,.show-copy-full strong{color:var(--txt)}
+  /* "what it took" collapsible */
+  .wit{margin-top:4px;border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.02);overflow:hidden}
+  .wit>summary{cursor:pointer;list-style:none;display:flex;align-items:center;gap:13px;padding:16px 20px;transition:.2s}
+  .wit>summary::-webkit-details-marker{display:none}
+  .wit>summary:hover{background:rgba(255,255,255,.04)}
+  .wit .wit-q{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:1.05rem;white-space:nowrap}
+  .wit .wit-hint{font-family:var(--mono);font-size:.73rem;color:var(--muted)}
+  .wit .wit-chev{margin-left:auto;color:var(--c1);font-size:1.4rem;line-height:1;transition:transform .25s}
+  .wit[open] .wit-chev{transform:rotate(90deg)}
+  .wit[open]>summary{border-bottom:1px solid var(--line)}
+  .wit-body{padding:clamp(18px,3.5vw,26px)}
+  .wit-body p{color:var(--muted);font-size:.95rem}
+  .wit-body p+p{margin-top:12px}
+  .wit-body .lead-line{color:#c9c9da;font-size:.99rem;margin-bottom:4px}
+  .wit-body h5{font-family:'Space Grotesk',sans-serif;color:var(--txt);font-size:1rem;font-weight:600;margin:24px 0 8px}
+  .wit-body b,.wit-body strong{color:var(--txt)}
+  .wit-body code{font-family:var(--mono);font-size:.85em;color:var(--c1)}
+  @media(max-width:560px){.wit .wit-hint{display:none}}
   /* cat command center */
   .cat-hero{display:grid;grid-template-columns:.92fr 1.08fr;gap:24px;align-items:center;border:1px solid var(--line);border-radius:16px;background:radial-gradient(120% 130% at 82% -20%,rgba(0,156,244,.18),transparent 60%),#070b14;padding:clamp(20px,3.5vw,32px)}
   @media(max-width:760px){.cat-hero{grid-template-columns:1fr}}
@@ -431,6 +450,62 @@
   <div class="kicker reveal">02 &middot; Selected Work</div>
   <h2 class="reveal">Things I have built and shipped</h2>
   <p class="lead reveal">A multi-platform XR training platform and the systems around it. Built in Unity with XR Interaction Toolkit, Photon Fusion, Addressables, and a lot of purpose-built tooling.</p>
+
+  <div class="showcase reveal" style="margin-bottom:40px">
+    <div class="show-head">
+      <img class="app-icon" src="assets/vr-transition-poster.jpg" alt="VR loading transition" />
+      <div>
+        <h3>Procedural VR loading transition</h3>
+        <div class="show-tag">A hand-written shader supernova, different every single load.</div>
+      </div>
+    </div>
+    <div class="show-stack">
+      <div class="frame">
+        <div class="frame-bar"><span></span><span></span><span></span><div class="frame-url">lobby &rarr; module &middot; in-headset Quest capture</div></div>
+        <video class="vrvid" playsinline controls preload="metadata" poster="assets/vr-transition-poster.jpg">
+          <source src="assets/vr-transition.mp4" type="video/mp4" />
+        </video>
+      </div>
+      <div class="frame-cap">Recorded in-headset on a Quest. Unmute for the ambient track. It never grows the same shape twice.</div>
+      <div class="show-copy-full">
+        <p>Between the lobby and every training module, the app needs to hold the player while the next scene streams in. Instead of a spinner, I built a real-time, in-headset cinematic: a tunnel of thousands of obsidian cubes, a nebula that ignites and blooms in the center, a whiteout, and the logo reveal, all on a Quest at 72&nbsp;fps.</p>
+        <ul class="feats">
+          <li><b>Hand-written HLSL</b>, no Shader Graph, with Single Pass Instanced stereo for Quest</li>
+          <li><b>GPU-instanced</b> cube field: thousands of cubes, every motion in the vertex shader, zero CPU simulation</li>
+          <li><b>Procedurally generated</b> nebula grown from a seeded noise threshold, so every load is a different supernova</li>
+          <li><b>No post-processing stack</b>: the glow, god-rays and whiteout are all done in-shader</li>
+          <li>Authored to a strict <b>72&nbsp;fps Quest frame budget</b></li>
+        </ul>
+        <p class="why"><strong>Why I built it:</strong> a load screen is the first thing a learner sees every single session, so it should feel like the product, not a pause. The nebula develops from a falling noise threshold under an oblong envelope, which is what makes it organic and unrepeatable, driven by <code>Graphics.RenderMeshPrimitives</code>, a persistent <code>GraphicsBuffer</code>, and a per-run seed.</p>
+      </div>
+      <details class="wit">
+        <summary>
+          <span class="wit-q">What it took</span>
+          <span class="wit-hint">the shaders, the scripts, and the walls I hit</span>
+          <span class="wit-chev">&rsaquo;</span>
+        </summary>
+        <div class="wit-body">
+          <p class="lead-line">None of this is a video file or an off-the-shelf particle preset. It is real-time and procedural, drawn from scratch every frame, which is exactly what made it hard. Here is what actually went into it, in my own words.</p>
+
+          <h5>A suite of hand-written shaders, no Shader Graph</h5>
+          <p>Every element is its own hand-authored HLSL shader in URP: the obsidian cube tunnel, the growing nebula, the radial god-rays, the whiteout, the holographic logo. I wrote a small library of them and a single controller script that assembles the whole cinematic at runtime, spawning the GPU buffers, building the materials, and sequencing the phases on a timeline.</p>
+
+          <h5>Thousands of cubes for zero CPU cost</h5>
+          <p>The tunnel is thousands of cubes and not one of them is a GameObject. They live in a single persistent <code>GraphicsBuffer</code> and draw in one call with <code>Graphics.RenderMeshPrimitives</code>. Every bit of their motion, the drift, the tunnel shape, the final burst toward your face, happens in the vertex shader off a per-cube seed. The CPU does nothing per frame. It was the only way to hit that many cubes inside a 72&nbsp;fps Quest budget.</p>
+
+          <h5>The walls I hit</h5>
+          <p><b>Stereo rendering.</b> Hand-written shaders don't get VR for free. My first headset builds rendered to one eye, or the wrong eye, until I threaded the Single Pass Instanced stereo macros through every shader by hand. Flawless on a monitor, broken in the headset, a fun one to chase down.</p>
+          <p><b>Shaders vanishing on-device.</b> Because my shaders are built at runtime, Unity stripped them out of the player build. They looked perfect in the editor and showed up as flat coloured boxes in the headset, the nebula was a solid blue square on a Quest for a build or two before I worked out it had to be force-included in the build.</p>
+          <p><b>Cubes disappearing after one frame.</b> Procedural instanced draws don't read material properties the normal way; the buffer and its companion values have to be pushed as globals, or everything blanks after the first frame. Another bug that only existed on the device.</p>
+          <p><b>Making the nebula grow like a real one.</b> This was the hardest single thing. A nebula that expands as a simple radial front always has one sector that fills in last, and it reads as obviously programmed. I rebuilt the growth as a noise threshold that falls over time under a soft oblong envelope, so it develops as scattered islands that ignite and merge with no trailing edge, and it is seeded, so it grows a genuinely different shape every single load.</p>
+
+          <h5>The constraint I set myself</h5>
+          <p>No post-processing stack. The glow, the god-rays, the whiteout, all of it is done inside the shaders. On a tile-based mobile GPU that is the cheaper and more controllable path, but it means every bit of light is hand-built. The biggest lesson across all of it: I could not trust the editor. Half of these problems only exist on the headset, so I learned to judge the whole thing in a real device build, not the Game view.</p>
+        </div>
+      </details>
+    </div>
+  </div>
+
   <div class="grid">
     <div class="card reveal"><div class="num">// 01</div><h3>Four platforms, one codebase</h3><p>Shipped the same XR training app to Quest/XR, Android, Windows, and iOS from a single Unity project. Per-platform graphics APIs (Vulkan, GLES3, IL2CPP, DirectX), build configs, and Addressables profiles, including tracking down a Vulkan black-screen and falling back to GLES3 on Android.</p><div class="stack"><span class="chip">Unity</span><span class="chip">URP</span><span class="chip">OpenXR</span><span class="chip">IL2CPP</span></div></div>
 
