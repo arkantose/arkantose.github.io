@@ -417,7 +417,7 @@
 <header class="hero wrap">
   <div class="eyebrow reveal">Unity / XR Engineer</div>
   <h1 class="reveal">I build <span class="g">immersive</span><br/>software, and the<br/>tools that ship it.</h1>
-  <div class="role reveal">Quest &middot; iOS &middot; Android &middot; Windows, one codebase.</div>
+  <div class="role reveal">Quest &middot; iOS &middot; Android &middot; Windows &middot; macOS, one codebase.</div>
   <p class="tag reveal">I architect and ship multi-platform VR/AR training experiences in Unity, from the interaction systems and real-time multiplayer down to the build pipelines and internal tooling that hold it all together.</p>
   <div class="cta reveal">
     <a class="btn primary" href="#work">View the work</a>
@@ -430,7 +430,7 @@
 
 <section class="wrap">
   <div class="stats">
-    <div class="stat reveal"><div class="n" data-to="4">0</div><div class="l">Platforms shipped</div></div>
+    <div class="stat reveal"><div class="n" data-to="5">0</div><div class="l">Platforms shipped</div></div>
     <div class="stat reveal"><div class="n" data-to="20" data-suffix="+">0</div><div class="l">Training modules delivered</div></div>
     <div class="stat reveal"><div class="n" data-to="3869">0</div><div class="l">Object references auto-remapped</div></div>
     <div class="stat reveal"><div class="n" data-to="70" data-suffix="+">0</div><div class="l">Technical articles written</div></div>
@@ -440,7 +440,7 @@
 <section id="about" class="wrap about">
   <div class="kicker reveal">01 &middot; About</div>
   <h2 class="reveal">Engineer first. Tool-builder always.</h2>
-  <p class="reveal">I build immersive training software in Unity, and the infrastructure that ships it. Over the past stretch I have taken a single XR training product across <strong>four platforms</strong>, Quest/XR, Android, Windows, and iOS, each with its own graphics API, build configuration, and content pipeline.</p>
+  <p class="reveal">I build immersive training software in Unity, and the infrastructure that ships it. Over the past stretch I have taken a single XR training product across <strong>five platforms</strong>, Quest/XR, Android, Windows, iOS, and macOS, each with its own graphics API, build configuration, and content pipeline.</p>
   <p class="reveal">The thread running through all of it is <strong>tooling</strong>. When merging a dozen contributor branches started breaking scenes, I built a GUID conflict detector and remapper to catch the problems before the merge instead of after. When the team needed authoring and sync workflows, I built those too. I would rather spend a day building the tool that saves the team a week than just do the week.</p>
   <p class="reveal">I came to engineering from teaching math, which is probably why I care so much about making hard things legible: failing safe, turning scary pipelines into repeatable steps, and instrumenting for the data that actually tells you something. In XR, that means measuring where people <em>look</em>, not just what they tap.</p>
   <p class="reveal">Lately a lot of that tooling runs on AI and a stack of APIs. I wire up <strong>Anthropic Claude</strong> for structured-output proofing, rewriting and code, <strong>ElevenLabs</strong> for narration, <strong>Whisper</strong> for transcription, and <strong>Cognitive3D</strong> for spatial analytics, alongside the platform APIs (Atlassian Forge, Supabase, Vimeo, Teams, GitHub) that stitch the pipeline together. My storyboard editor alone orchestrates four of them inside a single Confluence macro.</p>
@@ -507,7 +507,7 @@
   </div>
 
   <div class="grid">
-    <div class="card reveal"><div class="num">// 01</div><h3>Four platforms, one codebase</h3><p>Shipped the same XR training app to Quest/XR, Android, Windows, and iOS from a single Unity project. Per-platform graphics APIs (Vulkan, GLES3, IL2CPP, DirectX), build configs, and Addressables profiles, including tracking down a Vulkan black-screen and falling back to GLES3 on Android.</p><div class="stack"><span class="chip">Unity</span><span class="chip">URP</span><span class="chip">OpenXR</span><span class="chip">IL2CPP</span></div></div>
+    <div class="card reveal"><div class="num">// 01</div><h3>Five platforms, one codebase</h3><p>Shipped the same XR training app to Quest/XR, Android, Windows, iOS, and macOS from a single Unity project. Per-platform graphics APIs (Vulkan, GLES3, DirectX, Metal), build configs, and Addressables profiles, including tracking down a Vulkan black-screen and falling back to GLES3 on Android.</p><div class="stack"><span class="chip">Unity</span><span class="chip">URP</span><span class="chip">OpenXR</span><span class="chip">IL2CPP</span></div></div>
 
     <div class="card reveal"><div class="num">// 02</div><h3>On-demand content delivery</h3><p>Architected remote module loading with Unity Addressables and Cloud Content Delivery, so the app installs small and pulls content only when it is opened. Separate CCD buckets and profiles per platform, with build-time checks to stop silent catalog mismatches.</p><div class="stack"><span class="chip">Addressables</span><span class="chip">CCD</span><span class="chip">DevOps</span></div></div>
 
