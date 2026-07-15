@@ -430,7 +430,7 @@
 
 <section class="wrap">
   <div class="stats">
-    <div class="stat reveal"><div class="n" data-to="5">0</div><div class="l">Platforms shipped</div></div>
+    <div class="stat reveal"><div class="n" data-to="6">0</div><div class="l">Platforms shipped</div></div>
     <div class="stat reveal"><div class="n" data-to="20" data-suffix="+">0</div><div class="l">Training modules delivered</div></div>
     <div class="stat reveal"><div class="n" data-to="3869">0</div><div class="l">Object references auto-remapped</div></div>
     <div class="stat reveal"><div class="n" data-to="70" data-suffix="+">0</div><div class="l">Technical articles written</div></div>
@@ -440,7 +440,7 @@
 <section id="about" class="wrap about">
   <div class="kicker reveal">01 &middot; About</div>
   <h2 class="reveal">Engineer first. Tool-builder always.</h2>
-  <p class="reveal">I build immersive training software in Unity, and the infrastructure that ships it. Over the past stretch I have taken a single XR training product across <strong>five platforms</strong>, Quest/XR, Android, Windows, iOS, and macOS, each with its own graphics API, build configuration, and content pipeline.</p>
+  <p class="reveal">I build immersive training software in Unity, and the infrastructure that ships it. Over the past stretch I have taken a single XR training product across <strong>five platforms</strong>, Quest/XR, Android, Windows, iOS, and macOS, each with its own graphics API, build configuration, and content pipeline. Most recently I stood up an entirely new platform on its own, a real-time remote-assist app for <strong>AR smart glasses</strong>, taken solo from an unfamiliar SDK to a working demo.</p>
   <p class="reveal">The thread running through all of it is <strong>tooling</strong>. When merging a dozen contributor branches started breaking scenes, I built a GUID conflict detector and remapper to catch the problems before the merge instead of after. When the team needed authoring and sync workflows, I built those too. I would rather spend a day building the tool that saves the team a week than just do the week.</p>
   <p class="reveal">I came to engineering from teaching math, which is probably why I care so much about making hard things legible: failing safe, turning scary pipelines into repeatable steps, and instrumenting for the data that actually tells you something. In XR, that means measuring where people <em>look</em>, not just what they tap.</p>
   <p class="reveal">Lately a lot of that tooling runs on AI and a stack of APIs. I wire up <strong>Anthropic Claude</strong> for structured-output proofing, rewriting and code, <strong>ElevenLabs</strong> for narration, <strong>Whisper</strong> for transcription, and <strong>Cognitive3D</strong> for spatial analytics, alongside the platform APIs (Atlassian Forge, Supabase, Vimeo, Teams, GitHub) that stitch the pipeline together. My storyboard editor alone orchestrates four of them inside a single Confluence macro.</p>
@@ -449,7 +449,7 @@
 <section id="work" class="wrap">
   <div class="kicker reveal">02 &middot; Selected Work</div>
   <h2 class="reveal">Things I have built and shipped</h2>
-  <p class="lead reveal">A multi-platform XR training platform and the systems around it. Built in Unity with XR Interaction Toolkit, Photon Fusion, Addressables, and a lot of purpose-built tooling.</p>
+  <p class="lead reveal">A multi-platform VR training platform, a new AR product on smart glasses, and the systems around both. Built in Unity with XR Interaction Toolkit, Photon Fusion, Addressables, WebRTC, and a lot of purpose-built tooling.</p>
 
   <div class="showcase reveal" style="margin-bottom:40px">
     <div class="show-head">
@@ -518,6 +518,8 @@
     <div class="card reveal"><div class="num">// 05</div><h3>iOS distribution from zero</h3><p>Stood up the full Apple signing chain and a cloud build pipeline, CSR, distribution certificate, provisioning profile, p12, TestFlight, without owning a Mac. Demystified once, repeatable forever.</p><div class="stack"><span class="chip">iOS</span><span class="chip">CI/CD</span><span class="chip">Cloud Build</span></div></div>
 
     <div class="card reveal"><div class="num">// 06</div><h3>Spatial analytics</h3><p>Integrated gaze and dwell analytics into XR training to see where learners hesitate and which steps confuse them. Built as a fail-safe capability layer that compiles and runs as a no-op until keys are configured, so it ships safely and switches on later.</p><div class="stack"><span class="chip">Cognitive3D</span><span class="chip">Gaze Data</span><span class="chip">Analytics</span></div></div>
+
+    <div class="card reveal"><div class="num">// 07</div><h3>AR glasses, zero to demoed</h3><p>Handed a brand-new AR platform and shipped a solo &ldquo;see-what-I-see&rdquo; remote-assist app in about two weeks. The wearer&rsquo;s smart glasses stream their camera to a remote expert&rsquo;s browser over WebRTC; the expert draws on the live video; the annotations render back <b>SLAM 6DoF world-locked</b> in the wearer&rsquo;s field of view. Live video, world anchoring, bidirectional voice, and a deployed signaling server.</p><div class="stack"><span class="chip">RayNeo OpenXR ARDK</span><span class="chip">WebRTC</span><span class="chip">SLAM</span><span class="chip">Snapdragon AR1</span></div></div>
   </div>
 </section>
 
